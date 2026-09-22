@@ -52,127 +52,112 @@
   /* ------------------------------------------------------------------------
      1b. Course catalog
      ------------------------------------------------------------------------
-     Transcribed from the student's own IUBAT course list (course code, name
-     and credit hours). Two corrections were made on the student's direct
-     confirmation of their own program: that document printed ENG 101 and
-     ENG 102 as 2 credit hours each; they are 4 and 3 respectively. Everything
-     else here is reproduced as the source document listed it.
-
-     Courses with 0 credit hours (workshops, tool certifications) are kept
-     selectable — they carry no weight in a GPA either way.
+     The course list itself lives entirely in data/courses.json — this file
+     is the single source of truth for course codes, names and credit hours
+     so the catalog can be corrected or extended without touching any code.
+     script.js only adds a presentational "subject group" label (derived
+     from the course code prefix) so the search list can show a grouped
+     picker; it never invents or duplicates course facts.
      ------------------------------------------------------------------------ */
 
-  var COURSE_CATALOG = [
-    { group: 'Personal & career development', courses: [
-      { code: 'APSY 101', name: 'Creating Healthy Relationships: Love & Intimacy', credit: 0 },
-      { code: 'APSY 102', name: 'Stress Management', credit: 0 },
-      { code: 'ART 102',  name: 'Educational Planning', credit: 1 },
-      { code: 'ART 202',  name: 'Career Planning and Development-I', credit: 1 },
-      { code: 'ART 203',  name: 'Career Planning and Development-II', credit: 1 },
-      { code: 'ART 204',  name: 'Modern Living', credit: 2 }
-    ]},
-    { group: 'English', courses: [
-      { code: 'ELP 005', name: 'Advanced Spoken English', credit: 1 },
-      { code: 'ENG 101', name: 'Basic English Composition', credit: 4 },
-      { code: 'ENG 102', name: 'English Comprehensions and Speaking', credit: 3 },
-      { code: 'ENG 203', name: 'Advanced English Composition', credit: 2 },
-      { code: 'ENG 250', name: 'Public Speaking', credit: 2 }
-    ]},
-    { group: 'Mathematics & statistics', courses: [
-      { code: 'MAT 147', name: 'Applied Calculus', credit: 3 },
-      { code: 'MAT 167', name: 'Calculus I', credit: 3 },
-      { code: 'MAT 197', name: 'Calculus II', credit: 3 },
-      { code: 'MAT 219', name: 'Linear Algebra', credit: 2 },
-      { code: 'MAT 237', name: 'Calculus III', credit: 3 },
-      { code: 'MAT 247', name: 'Numerical Analysis', credit: 3 },
-      { code: 'STA 240', name: 'Statistics', credit: 3 }
-    ]},
-    { group: 'Physics & chemistry', courses: [
-      { code: 'CHM 115', name: 'General Chemistry', credit: 3 },
-      { code: 'CHM 116', name: 'Chemistry Lab', credit: 1 },
-      { code: 'PHY 111', name: 'Physics', credit: 3 },
-      { code: 'PHY 112', name: 'Physics Lab', credit: 1 },
-      { code: 'PHY 121', name: 'Advanced Physics', credit: 3 }
-    ]},
-    { group: 'Computer science', courses: [
-      { code: 'CSC 103', name: 'Fundamentals of Computers and Applications', credit: 3 },
-      { code: 'CSC 104', name: 'Computer Applications Lab', credit: 1 },
-      { code: 'CSC 183', name: 'Programming C', credit: 3 },
-      { code: 'CSC 184', name: 'Programming C Lab', credit: 1 }
-    ]},
-    { group: 'Economics, psychology & humanities', courses: [
-      { code: 'ECO 101', name: 'Principles of Micro Economics', credit: 3 },
-      { code: 'ENV 103', name: 'Environmental Science', credit: 2 },
-      { code: 'PHI 114', name: 'Introduction to Philosophy', credit: 3 },
-      { code: 'PSY 105', name: 'General Psychology', credit: 3 }
-    ]},
-    { group: 'General engineering', courses: [
-      { code: 'CEN 120', name: 'Civil Engineering Drawing', credit: 1 },
-      { code: 'MEC 173', name: 'Introduction to Mechanical Engineering', credit: 3 }
-    ]},
-    { group: 'Electrical & Electronic Engineering (EEN)', courses: [
-      { code: 'EEN 183', name: 'Circuit Analysis', credit: 3 },
-      { code: 'EEN 184', name: 'Circuit Lab I', credit: 1 },
-      { code: 'EEN 215', name: 'Engineering Ethics', credit: 1 },
-      { code: 'EEN 225', name: 'Circuit Analysis II', credit: 3 },
-      { code: 'EEN 226', name: 'Circuit Analysis II Lab', credit: 1 },
-      { code: 'EEN 257', name: 'Electrical Machines I', credit: 3 },
-      { code: 'EEN 258', name: 'Electrical Machines I Practice', credit: 1 },
-      { code: 'EEN 265', name: 'Electronic Analysis and Design I', credit: 3 },
-      { code: 'EEN 266', name: 'Electronic I Lab', credit: 1 },
-      { code: 'EEN 275', name: 'Electric and Magnetic Fields', credit: 3 },
-      { code: 'EEN 287', name: 'Electrical Machines II', credit: 3 },
-      { code: 'EEN 288', name: 'Electrical Machines II Practice', credit: 1 },
-      { code: 'EEN 303', name: 'Linear Circuits and Systems', credit: 3 },
-      { code: 'EEN 315', name: 'Electronic Analysis and Design II', credit: 3 },
-      { code: 'EEN 316', name: 'Electronic Analysis and Design II Lab', credit: 1 },
-      { code: 'EEN 329', name: 'Digital Logic Design', credit: 3 },
-      { code: 'EEN 330', name: 'Digital Logic Lab', credit: 1 },
-      { code: 'EEN 347', name: 'Electrical Properties of Material', credit: 2 },
-      { code: 'EEN 348', name: 'Electrical Wiring and Estimation', credit: 1 },
-      { code: 'EEN 361', name: 'Power Transmission and Distribution', credit: 3 },
-      { code: 'EEN 373', name: 'Microprocessor Systems and Interfacing', credit: 3 },
-      { code: 'EEN 374', name: 'Microprocessor Interfacing Lab', credit: 1 },
-      { code: 'EEN 403', name: 'Digital Signal Processing', credit: 3 },
-      { code: 'EEN 404', name: 'Digital Signal Processing Lab', credit: 1 },
-      { code: 'EEN 405', name: 'Industrial Electronics', credit: 3 },
-      { code: 'EEN 406', name: 'Industrial Electronics Lab', credit: 1 },
-      { code: 'EEN 407', name: 'Feedback System Analysis and Design', credit: 3 },
-      { code: 'EEN 408', name: 'Feedback System Lab', credit: 1 },
-      { code: 'EEN 413', name: 'Project Evaluation, Planning and Management', credit: 3 },
-      { code: 'EEN 431', name: 'Transmission of Information', credit: 3 },
-      { code: 'EEN 432', name: 'Communications Practice', credit: 1 },
-      { code: 'EEN 441', name: 'Measurement and Instrumentation', credit: 3 },
-      { code: 'EEN 442', name: 'Measurement and Instrumentation Lab', credit: 1 },
-      { code: 'EEN 453', name: 'Power System Analysis', credit: 3 },
-      { code: 'EEN 454', name: 'Power System Analysis Practice', credit: 1 },
-      { code: 'EEN 455', name: 'Power Stations', credit: 3 },
-      { code: 'EEN 463', name: 'Switchgear and Protective Relays', credit: 3 },
-      { code: 'EEN 464', name: 'Switchgear and Protective Relays Lab', credit: 1 },
-      { code: 'EEN 471', name: 'Digital and Satellite Communication Engineering', credit: 3 },
-      { code: 'EEN 472', name: 'Digital and Satellite Communication Lab', credit: 1 },
-      { code: 'EEN 483', name: 'VLSI', credit: 3 },
-      { code: 'EEN 484', name: 'VLSI Lab', credit: 1 },
-      { code: 'EEN 487', name: 'Biomedical Electronics', credit: 3 },
-      { code: 'EEN 488', name: 'Thesis', credit: 3 },
-      { code: 'EEN 490', name: 'Practicum', credit: 6 }
-    ]},
-    { group: 'Software & tool certifications', courses: [
-      { code: 'AutoCAD', name: 'AutoCAD', credit: 0 },
-      { code: 'GIS',     name: 'GIS', credit: 0 },
-      { code: 'PDNA',    name: 'Power Distribution Network Analysis', credit: 0 },
-      { code: 'PSNA',    name: 'Power System Network Analysis', credit: 0 },
-      { code: 'SW',      name: 'SolidWorks', credit: 0 }
-    ]}
+  var COURSE_DATA_URL = 'data/courses.json';
+
+  var COURSE_CATALOG_FLAT = [];      /* [{ code, name, credit }, ...] as loaded from JSON */
+  var COURSE_CATALOG_BY_CODE = {};   /* code -> { code, name, credit } */
+  var COURSE_CATALOG_GROUPED = [];   /* [{ group, courses: [...] }, ...] for display */
+  var COURSE_LABEL_TO_CODE = {};     /* "CODE — Name (n credits)" -> code, for the search box */
+  var courseCatalogLoaded = false;
+
+  /* Cosmetic grouping only — purely a label, not course data. Any course
+     code prefix missing from this map is simply grouped under "Other". */
+  var PREFIX_GROUPS = {
+    APSY: 'Personal & career development',
+    ART: 'Personal & career development',
+    ELP: 'English',
+    ENG: 'English',
+    MAT: 'Mathematics',
+    STA: 'Mathematics',
+    CHM: 'Physics & chemistry',
+    PHY: 'Physics & chemistry',
+    CSC: 'Computer science',
+    ECO: 'Economics & humanities',
+    PHI: 'Economics & humanities',
+    ENV: 'Economics & humanities',
+    PSY: 'Economics & humanities',
+    CEN: 'General engineering',
+    MEC: 'General engineering',
+    EEN: 'Electrical & Electronic Engineering (EEN)',
+    AutoCAD: 'Software & tool certifications',
+    GIS: 'Software & tool certifications',
+    PDNA: 'Software & tool certifications',
+    PSNA: 'Software & tool certifications',
+    SW: 'Software & tool certifications'
+  };
+  var GROUP_ORDER = [
+    'Personal & career development', 'English', 'Mathematics', 'Physics & chemistry',
+    'Computer science', 'Economics & humanities', 'General engineering',
+    'Electrical & Electronic Engineering (EEN)', 'Software & tool certifications', 'Other'
   ];
 
-  /* Flat lookup: course code -> { code, name, credit }. */
-  var COURSE_CATALOG_BY_CODE = {};
-  COURSE_CATALOG.forEach(function (group) {
-    group.courses.forEach(function (course) {
-      COURSE_CATALOG_BY_CODE[course.code] = course;
+  function deriveGroupName(code) {
+    var prefix = code.indexOf(' ') > -1 ? code.split(' ')[0] : code;
+    return PREFIX_GROUPS[prefix] || 'Other';
+  }
+
+  function composeCourseLabel(course) {
+    return course.code + ' — ' + course.name + ' (' + course.credit +
+      (course.credit === 1 ? ' credit' : ' credits') + ')';
+  }
+
+  function buildCatalogGroups(list) {
+    var buckets = {};
+    list.forEach(function (course) {
+      var g = deriveGroupName(course.code);
+      if (!buckets[g]) { buckets[g] = []; }
+      buckets[g].push(course);
     });
-  });
+    return GROUP_ORDER.filter(function (g) { return buckets[g]; })
+      .map(function (g) { return { group: g, courses: buckets[g] }; });
+  }
+
+  /* Loads data/courses.json. Resolves true on success, false on failure —
+     the app keeps working either way (typed / custom courses always work),
+     but a visible banner explains that the catalog could not be loaded. */
+  function loadCourseCatalog() {
+    return fetch(COURSE_DATA_URL, { cache: 'no-store' })
+      .then(function (response) {
+        if (!response.ok) { throw new Error('HTTP ' + response.status); }
+        return response.json();
+      })
+      .then(function (list) {
+        if (!Array.isArray(list)) { throw new Error('courses.json did not contain a list'); }
+        var clean = list.filter(function (c) {
+          return c && typeof c.code === 'string' && c.code.trim() !== '' &&
+                 typeof c.name === 'string' && typeof c.credit === 'number' && isFinite(c.credit);
+        });
+        COURSE_CATALOG_FLAT = clean;
+        COURSE_CATALOG_BY_CODE = {};
+        COURSE_LABEL_TO_CODE = {};
+        clean.forEach(function (c) {
+          COURSE_CATALOG_BY_CODE[c.code] = c;
+          COURSE_LABEL_TO_CODE[composeCourseLabel(c)] = c.code;
+        });
+        COURSE_CATALOG_GROUPED = buildCatalogGroups(clean);
+        courseCatalogLoaded = true;
+        return true;
+      })
+      .catch(function (err) {
+        console.error('Could not load the course catalog (data/courses.json):', err);
+        COURSE_CATALOG_FLAT = [];
+        COURSE_CATALOG_BY_CODE = {};
+        COURSE_LABEL_TO_CODE = {};
+        COURSE_CATALOG_GROUPED = [];
+        courseCatalogLoaded = false;
+        var banner = document.getElementById('catalogBanner');
+        if (banner) { banner.hidden = false; }
+        return false;
+      });
+  }
 
   var STORAGE_PREFIX = 'iubat-eee-calc/v1/';
 
@@ -289,6 +274,28 @@
       doomed.forEach(function (k) { window.localStorage.removeItem(k); });
     } catch (err) { /* ignore */ }
     return doomed.length;
+  }
+
+  /* ------------------------------------------------------------------------
+     3b. Toast notifications — small, auto-dismissing, screen-reader friendly
+     ------------------------------------------------------------------------ */
+
+  function showToast(message, variant) {
+    var container = $('#toasts');
+    if (!container || !message) { return; }
+
+    var toast = document.createElement('div');
+    toast.className = 'toast' + (variant ? ' toast--' + variant : '');
+    toast.setAttribute('role', variant === 'error' ? 'alert' : 'status');
+    toast.textContent = message;
+    container.appendChild(toast);
+
+    window.requestAnimationFrame(function () { toast.classList.add('is-visible'); });
+
+    window.setTimeout(function () {
+      toast.classList.remove('is-visible');
+      window.setTimeout(function () { toast.remove(); }, 260);
+    }, 3600);
   }
 
   /* ------------------------------------------------------------------------
@@ -620,70 +627,63 @@
     });
   }
 
-  /* Populates a <select data-field="code"> with the course catalog, grouped
-     by subject area, plus a placeholder and a "custom" escape hatch for a
-     course that isn't in the list. */
-  function makeCourseSelect(select) {
-    var placeholder = document.createElement('option');
-    placeholder.value = '';
-    placeholder.textContent = 'Course code';
-    select.appendChild(placeholder);
-
-    var custom = document.createElement('option');
-    custom.value = '__custom__';
-    custom.textContent = '✎ Custom / not in the list';
-    select.appendChild(custom);
-
-    COURSE_CATALOG.forEach(function (group) {
-      var optgroup = document.createElement('optgroup');
-      optgroup.label = group.group;
+  /* Fills the shared <datalist> with every course in the catalog, grouped
+     order first, as "CODE — Name (n credits)". Typing any part of the code
+     or the name filters the list natively in every modern browser, on
+     desktop and mobile alike — no custom dropdown code required. */
+  function populateCourseDatalist() {
+    var list = document.getElementById('courseCatalogList');
+    if (!list) { return; }
+    list.innerHTML = '';
+    COURSE_CATALOG_GROUPED.forEach(function (group) {
       group.courses.forEach(function (course) {
         var opt = document.createElement('option');
-        opt.value = course.code;
-        opt.textContent = course.code + ' — ' + course.name +
-          ' (' + course.credit + (course.credit === 1 ? ' credit' : ' credits') + ')';
-        optgroup.appendChild(opt);
+        opt.value = composeCourseLabel(course);
+        list.appendChild(opt);
       });
-      select.appendChild(optgroup);
     });
   }
 
-  /* Swaps the course-code <select> for a plain text input, so a course that
-     isn't in the catalog can still be typed in. Works whether or not the
-     select is attached to the document yet. Returns the new input. */
-  function swapCodeToCustomInput(select, value) {
-    var input = document.createElement('input');
-    input.type = 'text';
-    input.className = select.className;
-    input.setAttribute('data-field', 'code');
-    input.setAttribute('placeholder', 'Type a course code');
-    input.setAttribute('autocomplete', 'off');
-    var label = select.getAttribute('aria-label');
-    if (label) { input.setAttribute('aria-label', label); }
-    input.value = value || '';
-    select.replaceWith(input);
-    return input;
+  /* The visible search box (data-field="codeSearch") is paired with a
+     hidden input (data-field="code") that actually holds the value the
+     calculators read and save. When the typed text matches a catalog
+     entry exactly, the row's name and credit fields are auto-filled —
+     both remain editable afterward. Anything that doesn't match a known
+     course is kept as free text, so a course missing from the catalog can
+     still be entered and calculated. */
+  function handleCourseSearchInput(searchInput) {
+    var row = searchInput.closest('tr');
+    if (!row) { return; }
+    var hidden = row.querySelector('[data-field="code"]');
+    var value = searchInput.value;
+    var code = COURSE_LABEL_TO_CODE[value];
+
+    if (code && COURSE_CATALOG_BY_CODE[code]) {
+      var course = COURSE_CATALOG_BY_CODE[code];
+      hidden.value = code;
+      var nameInput = row.querySelector('[data-field="name"]');
+      var creditInput = row.querySelector('[data-field="credit"]');
+      if (nameInput) { nameInput.value = course.name; }
+      if (creditInput) { creditInput.value = String(course.credit); }
+    } else {
+      hidden.value = value.trim();
+    }
   }
 
-  /* When a catalog course is chosen, fill in its name and credit hours —
-     the person can still edit either afterward. Choosing "custom" swaps in
-     a free-text field instead of guessing at an unlisted course's details. */
-  function handleCourseCodeChange(select) {
-    var value = select.value;
-
-    if (value === '__custom__') {
-      swapCodeToCustomInput(select, '').focus();
-      return;
+  /* Restores a row's search box + hidden code field from saved data. If the
+     saved code still exists in the catalog, show its full descriptive
+     label; otherwise show the raw text that was saved (a custom course, or
+     one that has since been removed from courses.json). */
+  function restoreCourseCode(row, savedCode) {
+    var searchInput = row.querySelector('[data-field="codeSearch"]');
+    var hidden = row.querySelector('[data-field="code"]');
+    var code = savedCode || '';
+    hidden.value = code;
+    if (code && COURSE_CATALOG_BY_CODE[code]) {
+      searchInput.value = composeCourseLabel(COURSE_CATALOG_BY_CODE[code]);
+    } else {
+      searchInput.value = code;
     }
-
-    var course = COURSE_CATALOG_BY_CODE[value];
-    if (!course) { return; }
-
-    var row = select.closest('tr');
-    var nameInput = row && row.querySelector('[data-field="name"]');
-    var creditInput = row && row.querySelector('[data-field="credit"]');
-    if (nameInput) { nameInput.value = course.name; }
-    if (creditInput) { creditInput.value = String(course.credit); }
   }
 
   function createCourseCalculator(config) {
@@ -705,7 +705,7 @@
       Array.prototype.slice.call(tbody.rows).forEach(function (row, index) {
         var n = index + 1;
         row.querySelector('[data-field="name"]').setAttribute('aria-label', 'Course name, row ' + n);
-        row.querySelector('[data-field="code"]').setAttribute('aria-label', 'Course code, row ' + n);
+        row.querySelector('[data-field="codeSearch"]').setAttribute('aria-label', 'Search for a course, row ' + n);
         row.querySelector('[data-field="credit"]').setAttribute('aria-label', 'Credit hours, row ' + n);
         row.querySelector('[data-field="grade"]').setAttribute('aria-label', config.gradeLabel + ', row ' + n);
         row.querySelector('[data-action="remove"] .visually-hidden')
@@ -719,9 +719,6 @@
       var select = row.querySelector('[data-field="grade"]');
       makeGradeSelect(select);
 
-      var codeSelect = row.querySelector('[data-field="code"]');
-      makeCourseSelect(codeSelect);
-
       var nameInput = row.querySelector('[data-field="name"]');
       var creditInput = row.querySelector('[data-field="credit"]');
 
@@ -730,14 +727,7 @@
         creditInput.value = (data.credit === 0 || data.credit) ? String(data.credit) : '';
         select.value = data.grade || '';
         if (select.value !== (data.grade || '')) { select.value = ''; }
-
-        var savedCode = data.code || '';
-        if (savedCode && COURSE_CATALOG_BY_CODE[savedCode]) {
-          codeSelect.value = savedCode;
-        } else if (savedCode) {
-          /* A code that predates the catalog, or one typed as custom. */
-          swapCodeToCustomInput(codeSelect, savedCode);
-        }
+        restoreCourseCode(row, data.code || '');
       }
 
       tbody.appendChild(fragment);
@@ -891,12 +881,15 @@
 
     /* Events -------------------------------------------------------------- */
 
-    tbody.addEventListener('input', function () { render(); persist(); });
-    tbody.addEventListener('change', function (event) {
+    tbody.addEventListener('input', function (event) {
       var target = event.target;
-      if (target && target.tagName === 'SELECT' && target.matches('[data-field="code"]')) {
-        handleCourseCodeChange(target);
+      if (target && target.matches && target.matches('[data-field="codeSearch"]')) {
+        handleCourseSearchInput(target);
       }
+      render();
+      persist();
+    });
+    tbody.addEventListener('change', function () {
       render();
       persist();
     });
@@ -916,6 +909,7 @@
         if (field) { field.focus(); }
         render();
         persist();
+        showToast('Course added.', 'success');
       });
     }
 
@@ -1371,8 +1365,371 @@
 
       applyTheme(systemPrefersDark() ? 'dark' : 'light', false);
       setText(msg, 'All saved data has been erased from this browser.');
+      showToast('All data cleared.', 'success');
       window.setTimeout(function () { setText(msg, ''); }, 6000);
+      updateDashboard();
     });
+  }
+
+  /* ------------------------------------------------------------------------
+     12b. Dashboard, charts, projected CGPA
+     ------------------------------------------------------------------------
+     Pull-based: rather than threading callbacks through every calculator,
+     this reads the values the calculators have already rendered to the
+     page (result values, table rows) whenever any relevant input changes.
+     Keeps the existing calculators untouched and avoids duplicating their
+     validation logic.
+     ------------------------------------------------------------------------ */
+
+  var dashboardCharts = { progress: null, distribution: null };
+  var chartsAvailable = null; /* null = not checked yet */
+
+  function cssVar(name, fallback) {
+    var value = getComputedStyle(document.documentElement).getPropertyValue(name);
+    return value && value.trim() !== '' ? value.trim() : fallback;
+  }
+
+  function ensureCharts() {
+    if (chartsAvailable === null) {
+      chartsAvailable = (typeof window.Chart !== 'undefined');
+      if (!chartsAvailable) {
+        console.warn('Chart.js did not load — dashboard charts are hidden, everything else still works.');
+      }
+    }
+    if (!chartsAvailable) { return false; }
+
+    var progressCanvas = $('#chartCgpaProgress');
+    var distCanvas = $('#chartGradeDistribution');
+
+    if (progressCanvas && !dashboardCharts.progress) {
+      dashboardCharts.progress = new window.Chart(progressCanvas.getContext('2d'), {
+        type: 'line',
+        data: {
+          labels: [],
+          datasets: [
+            {
+              label: 'Semester GPA',
+              data: [],
+              borderColor: cssVar('--brand-500', '#4f5fe0'),
+              backgroundColor: 'transparent',
+              tension: 0.3,
+              pointRadius: 3
+            },
+            {
+              label: 'Cumulative CGPA',
+              data: [],
+              borderColor: cssVar('--brand-800', '#212a78'),
+              backgroundColor: 'transparent',
+              borderDash: [5, 4],
+              tension: 0.3,
+              pointRadius: 3
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          animation: { duration: 280 },
+          scales: { y: { min: 0, max: 4, ticks: { stepSize: 0.5 } } },
+          plugins: { legend: { position: 'bottom', labels: { boxWidth: 12 } } }
+        }
+      });
+    }
+
+    if (distCanvas && !dashboardCharts.distribution) {
+      dashboardCharts.distribution = new window.Chart(distCanvas.getContext('2d'), {
+        type: 'bar',
+        data: { labels: [], datasets: [{ label: 'Courses', data: [], backgroundColor: cssVar('--brand-400', '#818cf8'), borderRadius: 4 }] },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          animation: { duration: 280 },
+          plugins: { legend: { display: false } },
+          scales: { y: { beginAtZero: true, ticks: { precision: 0 } } }
+        }
+      });
+    }
+
+    return true;
+  }
+
+  function readSemesterRowsForDashboard() {
+    var tbody = $('#semRows');
+    if (!tbody) { return []; }
+    var list = [];
+    Array.prototype.slice.call(tbody.rows).forEach(function (row) {
+      var name = row.querySelector('[data-field="name"]').value.trim();
+      var credit = parseNum(row.querySelector('[data-field="credit"]').value);
+      var gpa = parseNum(row.querySelector('[data-field="gpa"]').value);
+      if (credit.valid && credit.value > 0 && gpa.valid && gpa.value >= 0 && gpa.value <= MAX_GRADE_POINT) {
+        list.push({ name: name || ('Semester ' + (list.length + 1)), credit: credit.value, gpa: gpa.value });
+      }
+    });
+    return list;
+  }
+
+  function readPlannerCoursesForDashboard() {
+    var tbody = $('#planRows');
+    if (!tbody) { return []; }
+    var list = [];
+    Array.prototype.slice.call(tbody.rows).forEach(function (row) {
+      var credit = parseNum(row.querySelector('[data-field="credit"]').value);
+      var grade = row.querySelector('[data-field="grade"]').value;
+      if (credit.valid && credit.value > 0 && grade) { list.push({ credit: credit.value, grade: grade }); }
+    });
+    return list;
+  }
+
+  /* Grade distribution comes from real, graded courses: the semester GPA
+     table and the CGPA-by-course table. The planner is hypothetical, so it
+     is deliberately excluded from this chart. */
+  function readGradeCountsForDashboard() {
+    var counts = {};
+    ['#gpaRows', '#ccRows'].forEach(function (selector) {
+      var tbody = $(selector);
+      if (!tbody) { return; }
+      Array.prototype.slice.call(tbody.rows).forEach(function (row) {
+        var select = row.querySelector('[data-field="grade"]');
+        var credit = parseNum(row.querySelector('[data-field="credit"]').value);
+        if (!select || !select.value || !credit.valid || credit.value <= 0) { return; }
+        counts[select.value] = (counts[select.value] || 0) + 1;
+      });
+    });
+    return counts;
+  }
+
+  /* Prefers the semester method's totals for the dashboard's CGPA and
+     completed-credits figures (it is what most students keep up to date);
+     falls back to the by-course method when no semester data exists. */
+  function getCompletedRecord() {
+    var semCredits = parseNum(($('#semCredits') || {}).textContent || '0');
+    var semPoints = parseNum(($('#semPoints') || {}).textContent || '0');
+    var semCountText = ($('#semCount') || {}).textContent || '0';
+
+    if (semCredits.valid && semCredits.value > 0) {
+      return {
+        credits: semCredits.value,
+        points: semPoints.valid ? semPoints.value : 0,
+        cgpaText: (($('#semValue') || {}).textContent || '—').trim(),
+        semesterCount: parseInt(semCountText, 10) || 0
+      };
+    }
+
+    var ccCounted = parseNum(($('#ccCounted') || {}).textContent || '0');
+    var ccPoints = parseNum(($('#ccPoints') || {}).textContent || '0');
+    return {
+      credits: ccCounted.valid ? ccCounted.value : 0,
+      points: ccPoints.valid ? ccPoints.value : 0,
+      cgpaText: (($('#ccValue') || {}).textContent || '—').trim(),
+      semesterCount: 0
+    };
+  }
+
+  function toggleChartEmpty(canvasSelector, emptySelector, isEmpty) {
+    var canvas = $(canvasSelector);
+    var empty = $(emptySelector);
+    if (canvas) { canvas.hidden = isEmpty; }
+    if (empty) { empty.hidden = !isEmpty; }
+  }
+
+  var updateDashboard = debounce(function () {
+    var semesters = readSemesterRowsForDashboard();
+    var record = getCompletedRecord();
+
+    setText($('#dashGpa'), (($('#gpaValue') || {}).textContent || '—').trim());
+    setText($('#dashCgpa'), record.cgpaText || '—');
+    setText($('#dashCredits'), fmtCredits(record.credits || 0));
+    setText($('#dashSemesters'), String(semesters.length > 0 ? semesters.length : record.semesterCount));
+
+    /* Credits-toward-degree progress bar. Total is configurable because no
+       officially verified total credit count for the EEE program was found
+       in the current sources — the person sets it once for their catalog
+       year and it is remembered. */
+    var totalInput = $('#dashTotalCredits');
+    var totalParsed = totalInput ? parseNum(totalInput.value) : { valid: false };
+    var totalCredits = (totalParsed.valid && totalParsed.value > 0) ? totalParsed.value : 136;
+    var pct = totalCredits > 0 ? Math.max(0, Math.min(100, (record.credits / totalCredits) * 100)) : 0;
+    var fill = $('#dashProgressFill');
+    if (fill) { fill.style.width = pct.toFixed(1) + '%'; }
+    setText($('#dashProgressText'),
+      fmtCredits(record.credits || 0) + ' of ' + fmtCredits(totalCredits) + ' credits completed (' + Math.round(pct) + '%).');
+    var bar = $('#dashProgressBar');
+    if (bar) {
+      bar.setAttribute('aria-valuenow', String(Math.round(pct)));
+      bar.setAttribute('aria-valuetext', Math.round(pct) + ' percent of credits completed');
+    }
+
+    /* Charts */
+    if (ensureCharts()) {
+      var labels = semesters.map(function (s) { return s.name; });
+      var semGpas = semesters.map(function (s) { return round2(s.gpa); });
+      var cumulative = [];
+      var runCredits = 0, runPoints = 0;
+      semesters.forEach(function (s) {
+        runCredits += s.credit;
+        runPoints += s.credit * s.gpa;
+        cumulative.push(runCredits > 0 ? round2(runPoints / runCredits) : null);
+      });
+
+      if (dashboardCharts.progress) {
+        dashboardCharts.progress.data.labels = labels;
+        dashboardCharts.progress.data.datasets[0].data = semGpas;
+        dashboardCharts.progress.data.datasets[1].data = cumulative;
+        dashboardCharts.progress.update('none');
+      }
+      toggleChartEmpty('#chartCgpaProgress', '#chartCgpaProgressEmpty', semesters.length === 0);
+
+      var gradeCounts = readGradeCountsForDashboard();
+      var gradeOrder = GRADING_SCALE.map(function (g) { return g.grade; });
+      var distLabels = gradeOrder.filter(function (g) { return gradeCounts[g]; });
+      var distData = distLabels.map(function (g) { return gradeCounts[g]; });
+
+      if (dashboardCharts.distribution) {
+        dashboardCharts.distribution.data.labels = distLabels;
+        dashboardCharts.distribution.data.datasets[0].data = distData;
+        dashboardCharts.distribution.update('none');
+      }
+      toggleChartEmpty('#chartGradeDistribution', '#chartGradeDistributionEmpty', distLabels.length === 0);
+    } else {
+      toggleChartEmpty('#chartCgpaProgress', '#chartCgpaProgressEmpty', true);
+      toggleChartEmpty('#chartGradeDistribution', '#chartGradeDistributionEmpty', true);
+    }
+
+    /* Planner: projected CGPA, clearly labelled as an estimate, combining
+       the completed record above with the planned (hypothetical) courses. */
+    var plannerCourses = readPlannerCoursesForDashboard();
+    var plannerResult = calculateGPA(plannerCourses);
+    var projectedEl = $('#planProjected');
+    if (projectedEl) {
+      if (plannerResult.counted > 0) {
+        var combinedCredits = (record.credits || 0) + plannerResult.counted;
+        var combinedPoints = (record.points || 0) + plannerResult.points;
+        setText(projectedEl, combinedCredits > 0 ? fmt2(combinedPoints / combinedCredits) : '—');
+      } else {
+        setText(projectedEl, '—');
+      }
+    }
+
+    if (totalInput) { saveData('dashboard-settings', { totalCredits: totalInput.value }); }
+  }, 180);
+
+  function initDashboard() {
+    var totalInput = $('#dashTotalCredits');
+    if (totalInput) {
+      var savedSettings = loadData('dashboard-settings', null);
+      if (savedSettings && typeof savedSettings === 'object' && savedSettings.totalCredits) {
+        totalInput.value = savedSettings.totalCredits;
+      }
+      totalInput.addEventListener('input', updateDashboard);
+    }
+
+    /* Any change anywhere in the calculators can move a dashboard figure,
+       so listen broadly and let the debounce keep it cheap. Event bubbling
+       guarantees each calculator's own render() has already run by the
+       time this reaches the document. */
+    document.addEventListener('input', updateDashboard);
+    document.addEventListener('change', updateDashboard);
+
+    updateDashboard();
+  }
+
+  /* ------------------------------------------------------------------------
+     12c. Export / import / print
+     ------------------------------------------------------------------------ */
+
+  function collectStoredAcademicData() {
+    var data = {};
+    if (!storageAvailable) { return data; }
+    try {
+      for (var i = 0; i < window.localStorage.length; i++) {
+        var key = window.localStorage.key(i);
+        if (key && key.indexOf(STORAGE_PREFIX) === 0) {
+          var shortKey = key.slice(STORAGE_PREFIX.length);
+          try { data[shortKey] = JSON.parse(window.localStorage.getItem(key)); }
+          catch (err) { /* skip an unreadable entry rather than failing the whole export */ }
+        }
+      }
+    } catch (err) { /* ignore */ }
+    return data;
+  }
+
+  function exportAcademicData() {
+    var payload = {
+      app: 'iubat-eee-academic-dashboard',
+      version: 1,
+      exportedAt: new Date().toISOString(),
+      data: collectStoredAcademicData()
+    };
+    try {
+      var blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+      var url = URL.createObjectURL(blob);
+      var link = document.createElement('a');
+      link.href = url;
+      link.download = 'iubat-eee-academic-data.json';
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+      showToast('Academic data exported.', 'success');
+    } catch (err) {
+      showToast('Could not export data in this browser.', 'error');
+    }
+  }
+
+  function importAcademicData(file) {
+    if (!file) { return; }
+
+    var reader = new FileReader();
+    reader.onerror = function () { showToast('Could not read this file.', 'error'); };
+    reader.onload = function () {
+      var parsed;
+      try {
+        parsed = JSON.parse(String(reader.result));
+      } catch (err) {
+        showToast('Invalid file.', 'error');
+        return;
+      }
+
+      if (!parsed || typeof parsed !== 'object' || !parsed.data || typeof parsed.data !== 'object') {
+        showToast('Invalid file.', 'error');
+        return;
+      }
+
+      var confirmed = window.confirm(
+        'Importing will overwrite the academic data currently saved in this browser. Continue?'
+      );
+      if (!confirmed) { return; }
+
+      try {
+        clearAllData();
+        Object.keys(parsed.data).forEach(function (key) {
+          saveData(key, parsed.data[key]);
+        });
+        showToast('Data imported successfully.', 'success');
+        window.setTimeout(function () { window.location.reload(); }, 500);
+      } catch (err) {
+        showToast('Could not import this file.', 'error');
+      }
+    };
+    reader.readAsText(file);
+  }
+
+  function initDataTools() {
+    var exportBtn = $('#exportData');
+    var importBtn = $('#importDataBtn');
+    var importInput = $('#importDataFile');
+    var printBtn = $('#printSummary');
+
+    if (exportBtn) { exportBtn.addEventListener('click', exportAcademicData); }
+    if (printBtn) { printBtn.addEventListener('click', function () { window.print(); }); }
+    if (importBtn && importInput) {
+      importBtn.addEventListener('click', function () { importInput.click(); });
+      importInput.addEventListener('change', function () {
+        var file = importInput.files && importInput.files[0];
+        importAcademicData(file);
+        importInput.value = '';
+      });
+    }
   }
 
   /* ------------------------------------------------------------------------
@@ -1386,58 +1743,69 @@
     initHeroDemo();
     initMarks();
     initTabs();
-    var semesterCGPA = initSemesterCGPA();
+    initDataTools();
 
-    var gpa = createCourseCalculator({
-      key: 'gpa-courses',
-      rows: '#gpaRows',
-      addBtn: '#gpaAdd',
-      resetBtn: '#gpaReset',
-      msg: '#gpaMsg',
-      value: '#gpaValue',
-      counted: '#gpaCounted',
-      attempted: '#gpaAttempted',
-      points: '#gpaPoints',
-      note: '#gpaNote',
-      defaultRows: 4,
-      gradeLabel: 'Grade',
-      emptyHint: 'Add at least one course with credit hours and a grade.'
+    /* The course catalog is fetched once, up front, so every calculator
+       and the search datalist can rely on it being ready before any row
+       is built or restored from storage. The app still finishes loading
+       (with typed/custom courses only) if the fetch fails. */
+    loadCourseCatalog().then(function () {
+      populateCourseDatalist();
+
+      var semesterCGPA = initSemesterCGPA();
+
+      var gpa = createCourseCalculator({
+        key: 'gpa-courses',
+        rows: '#gpaRows',
+        addBtn: '#gpaAdd',
+        resetBtn: '#gpaReset',
+        msg: '#gpaMsg',
+        value: '#gpaValue',
+        counted: '#gpaCounted',
+        attempted: '#gpaAttempted',
+        points: '#gpaPoints',
+        note: '#gpaNote',
+        defaultRows: 4,
+        gradeLabel: 'Grade',
+        emptyHint: 'Add at least one course with credit hours and a grade.'
+      });
+
+      var courseCGPA = createCourseCalculator({
+        key: 'cgpa-courses',
+        rows: '#ccRows',
+        addBtn: '#ccAdd',
+        resetBtn: '#ccReset',
+        msg: '#ccMsg',
+        value: '#ccValue',
+        counted: '#ccCounted',
+        attempted: '#ccAttempted',
+        points: '#ccPoints',
+        note: '#ccNote',
+        defaultRows: 4,
+        gradeLabel: 'Grade',
+        emptyHint: 'Add the courses from every completed semester.'
+      });
+
+      var planner = createCourseCalculator({
+        key: 'planner-courses',
+        rows: '#planRows',
+        addBtn: '#planAdd',
+        resetBtn: '#planReset',
+        msg: '#planMsg',
+        value: '#planValue',
+        counted: '#planCounted',
+        attempted: '#planAttempted',
+        points: '#planPoints',
+        note: '#planNote',
+        defaultRows: 4,
+        gradeLabel: 'Expected grade',
+        emptyHint: 'Add the courses you plan to take, with the grade you expect.'
+      });
+
+      var required = initRequiredGPA();
+      initClearAll([gpa, semesterCGPA, courseCGPA, planner, required]);
+      initDashboard();
     });
-
-    var courseCGPA = createCourseCalculator({
-      key: 'cgpa-courses',
-      rows: '#ccRows',
-      addBtn: '#ccAdd',
-      resetBtn: '#ccReset',
-      msg: '#ccMsg',
-      value: '#ccValue',
-      counted: '#ccCounted',
-      attempted: '#ccAttempted',
-      points: '#ccPoints',
-      note: '#ccNote',
-      defaultRows: 4,
-      gradeLabel: 'Grade',
-      emptyHint: 'Add the courses from every completed semester.'
-    });
-
-    var planner = createCourseCalculator({
-      key: 'planner-courses',
-      rows: '#planRows',
-      addBtn: '#planAdd',
-      resetBtn: '#planReset',
-      msg: '#planMsg',
-      value: '#planValue',
-      counted: '#planCounted',
-      attempted: '#planAttempted',
-      points: '#planPoints',
-      note: '#planNote',
-      defaultRows: 4,
-      gradeLabel: 'Expected grade',
-      emptyHint: 'Add the courses you plan to take, with the grade you expect.'
-    });
-
-    var required = initRequiredGPA();
-    initClearAll([gpa, semesterCGPA, courseCGPA, planner, required]);
   }
 
   if (document.readyState === 'loading') {
