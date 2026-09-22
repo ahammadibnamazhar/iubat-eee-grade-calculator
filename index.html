@@ -1,10 +1,696 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" dir="ltr">
 <head>
-    <title>IUBAT EEE Grade Calculator</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IUBAT EEE Academic Calculator | GPA &amp; CGPA Calculator</title>
+<meta name="description" content="An independent GPA, CGPA and grading calculator for IUBAT students.">
+<meta name="author" content="Independent student project">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#0b6e7a">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="IUBAT EEE Academic Calculator | GPA &amp; CGPA Calculator">
+<meta property="og:description" content="An independent GPA, CGPA and grading calculator for IUBAT students.">
+<meta property="og:site_name" content="IUBAT EEE Academic Calculator">
+<meta property="og:image" content="assets/favicon.svg">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="IUBAT EEE Academic Calculator">
+<meta name="twitter:description" content="An independent GPA, CGPA and grading calculator for IUBAT students.">
+
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=IBM+Plex+Sans:wght@400;500;600;700&amp;display=swap">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>IUBAT EEE Grade Calculator</h1>
-    <p>Website is working!</p>
+
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<header class="topbar">
+  <div class="topbar__inner">
+    <a class="brand" href="#top">
+      <svg class="brand__mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+        <rect x="1" y="1" width="30" height="30" rx="7" fill="currentColor" opacity=".12"></rect>
+        <path d="M4 20c3.2 0 3.2-9 6.4-9s3.2 9 6.4 9 3.2-9 6.4-9 3.2 9 4.8 9"
+              fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"></path>
+      </svg>
+      <span class="brand__text">
+        <span class="brand__name">IUBAT EEE Academic Calculator</span>
+        <span class="brand__note">Independent student project</span>
+      </span>
+    </a>
+
+    <button class="navtoggle" id="navToggle" type="button" aria-expanded="false" aria-controls="primaryNav" aria-label="Menu">
+      <span class="navtoggle__bars" aria-hidden="true"><span></span><span></span><span></span></span>
+      <span class="navtoggle__label">Menu</span>
+    </button>
+
+    <nav class="nav" id="primaryNav" aria-label="Sections">
+      <ul class="nav__list">
+        <li><a href="#gpa">GPA</a></li>
+        <li><a href="#cgpa">CGPA</a></li>
+        <li><a href="#marks">Marks to grade</a></li>
+        <li><a href="#grades">Grade table</a></li>
+        <li><a href="#required">Required GPA</a></li>
+        <li><a href="#planner">Planner</a></li>
+        <li><a href="#rules">Rules</a></li>
+        <li><a href="#about">About</a></li>
+      </ul>
+    </nav>
+
+    <button class="themebtn" id="themeToggle" type="button" aria-pressed="false">
+      <svg class="themebtn__icon themebtn__icon--sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <circle cx="12" cy="12" r="4.6" fill="none" stroke="currentColor" stroke-width="2"></circle>
+        <path d="M12 2v2.6M12 19.4V22M2 12h2.6M19.4 12H22M4.9 4.9l1.9 1.9M17.2 17.2l1.9 1.9M19.1 4.9l-1.9 1.9M6.8 17.2l-1.9 1.9"
+              fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+      </svg>
+      <svg class="themebtn__icon themebtn__icon--moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M20 14.2A8.4 8.4 0 0 1 9.8 4 8.4 8.4 0 1 0 20 14.2Z"
+              fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"></path>
+      </svg>
+      <span id="themeLabel">Dark mode</span>
+    </button>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ================= HERO ================= -->
+  <section class="hero" id="top">
+    <div class="wrap hero__grid">
+      <div class="hero__copy">
+        <p class="hero__kicker">Grading rules verified against iubat.edu on 17 September 2026</p>
+        <h1 class="hero__title">IUBAT EEE Academic Calculator</h1>
+        <p class="hero__sub">Calculate GPA, CGPA and understand the grading system with ease.</p>
+        <div class="hero__actions">
+          <a class="btn btn--primary" href="#gpa">Calculate GPA</a>
+          <a class="btn btn--ghost" href="#grades">View grading system</a>
+        </div>
+        <p class="hero__disclaimer">
+          Not an official IUBAT website. Always verify academic decisions with the latest
+          official IUBAT regulations.
+        </p>
+      </div>
+
+      <div class="hero__demo">
+        <div class="demo" role="group" aria-labelledby="demoTitle">
+          <h2 class="demo__title" id="demoTitle">Try it: marks to grade</h2>
+          <label class="demo__label" for="heroMarks">Marks out of 100</label>
+          <input class="demo__input" id="heroMarks" type="number" inputmode="decimal"
+                 min="0" max="100" step="0.01" value="72" autocomplete="off">
+          <div class="demo__out" id="heroOut" aria-live="polite">
+            <div class="demo__grade" id="heroGrade">A-</div>
+            <div class="demo__point"><span id="heroPoint">3.50</span> grade points</div>
+          </div>
+          <p class="demo__band" id="heroBand">70% to less than 75%</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= GPA ================= -->
+  <section class="section" id="gpa" aria-labelledby="gpaHeading">
+    <div class="wrap">
+      <header class="section__head">
+        <h2 class="section__title" id="gpaHeading">Semester GPA calculator</h2>
+        <p class="section__lede">
+          Add each course you took this semester with its credit hours and the grade you
+          received. GPA is the credit-weighted average of your grade points:
+          <strong>GPA = &Sigma;(Credit &times; Grade point) &divide; &Sigma;(Credit)</strong>.
+        </p>
+      </header>
+
+      <div class="panel">
+        <p class="panel__hint">
+          Pick a course code to fill in its name and credit hours automatically
+          &mdash; the credit stays editable afterward. This list matches the
+          EEE course catalog, with ENG 101 and ENG 102 corrected to 4 and 3
+          credit hours.
+        </p>
+        <div class="tablewrap">
+          <table class="ctable" id="gpaTable">
+            <caption class="visually-hidden">Courses for this semester</caption>
+            <thead>
+              <tr>
+                <th scope="col" class="ctable__c-name">Course name</th>
+                <th scope="col" class="ctable__c-code">Course code</th>
+                <th scope="col" class="ctable__c-cr">Credits</th>
+                <th scope="col" class="ctable__c-gr">Grade</th>
+                <th scope="col" class="ctable__c-act"><span class="visually-hidden">Actions</span></th>
+              </tr>
+            </thead>
+            <tbody id="gpaRows"></tbody>
+          </table>
+        </div>
+
+        <div class="panel__actions">
+          <button class="btn btn--primary" type="button" id="gpaAdd">Add course</button>
+          <button class="btn btn--ghost" type="button" id="gpaReset">Reset</button>
+        </div>
+
+        <p class="msg" id="gpaMsg" role="status" aria-live="polite"></p>
+
+        <div class="result" id="gpaResult">
+          <div class="result__main">
+            <div class="result__label">Semester GPA</div>
+            <div class="result__value" id="gpaValue">&mdash;</div>
+          </div>
+          <dl class="result__stats">
+            <div><dt>Credits counted in GPA</dt><dd id="gpaCounted">0</dd></div>
+            <div><dt>Credits attempted</dt><dd id="gpaAttempted">0</dd></div>
+            <div><dt>Total grade points</dt><dd id="gpaPoints">0.00</dd></div>
+          </dl>
+        </div>
+
+        <p class="note" id="gpaNote" hidden></p>
+      </div>
+
+      <aside class="callout">
+        <h3 class="callout__title">How F grades are handled here</h3>
+        <p>
+          Under the rules effective from Spring 2024, credit hours of courses with an
+          &lsquo;F&rsquo; grade are not counted in the calculation of SGPA and CGPA. This
+          calculator follows that rule: an F course is removed from both the top and the
+          bottom of the fraction rather than counted as zero points. Courses marked
+          &lsquo;I&rsquo; (incomplete) are also left out until a final grade is awarded.
+        </p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ================= CGPA ================= -->
+  <section class="section section--alt" id="cgpa" aria-labelledby="cgpaHeading">
+    <div class="wrap">
+      <header class="section__head">
+        <h2 class="section__title" id="cgpaHeading">CGPA calculator</h2>
+        <p class="section__lede">
+          GPA covers one semester. CGPA is cumulative: it weights every semester you have
+          completed by the credits earned in it, so a heavy semester moves your CGPA more
+          than a light one. Use whichever input you have.
+        </p>
+      </header>
+
+      <div class="tabs">
+        <div class="tabs__list" role="tablist" aria-label="CGPA input method">
+          <button class="tab" id="tabSem" role="tab" aria-selected="true" aria-controls="panelSem" type="button">By semester</button>
+          <button class="tab" id="tabCourse" role="tab" aria-selected="false" aria-controls="panelCourse" tabindex="-1" type="button">By course</button>
+        </div>
+
+        <div class="panel" id="panelSem" role="tabpanel" aria-labelledby="tabSem" tabindex="0">
+          <div class="tablewrap">
+            <table class="ctable" id="semTable">
+              <caption class="visually-hidden">Completed semesters</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Semester</th>
+                  <th scope="col" class="ctable__c-cr">Credits</th>
+                  <th scope="col" class="ctable__c-cr">GPA</th>
+                  <th scope="col" class="ctable__c-act"><span class="visually-hidden">Actions</span></th>
+                </tr>
+              </thead>
+              <tbody id="semRows"></tbody>
+            </table>
+          </div>
+
+          <div class="panel__actions">
+            <button class="btn btn--primary" type="button" id="semAdd">Add semester</button>
+            <button class="btn btn--ghost" type="button" id="semReset">Reset</button>
+          </div>
+
+          <p class="msg" id="semMsg" role="status" aria-live="polite"></p>
+
+          <div class="result">
+            <div class="result__main">
+              <div class="result__label">CGPA</div>
+              <div class="result__value" id="semValue">&mdash;</div>
+            </div>
+            <dl class="result__stats">
+              <div><dt>Completed credits</dt><dd id="semCredits">0</dd></div>
+              <div><dt>Semesters counted</dt><dd id="semCount">0</dd></div>
+              <div><dt>Total grade points</dt><dd id="semPoints">0.00</dd></div>
+            </dl>
+          </div>
+        </div>
+
+        <div class="panel" id="panelCourse" role="tabpanel" aria-labelledby="tabCourse" tabindex="0" hidden>
+          <p class="panel__hint">
+            Enter every course from every semester. This gives the same answer as the
+            semester method when each semester GPA was itself calculated from these courses.
+            Pick a course code to auto-fill its name and credit hours.
+          </p>
+          <div class="tablewrap">
+            <table class="ctable" id="ccTable">
+              <caption class="visually-hidden">All completed courses</caption>
+              <thead>
+                <tr>
+                  <th scope="col" class="ctable__c-name">Course name</th>
+                  <th scope="col" class="ctable__c-code">Course code</th>
+                  <th scope="col" class="ctable__c-cr">Credits</th>
+                  <th scope="col" class="ctable__c-gr">Grade</th>
+                  <th scope="col" class="ctable__c-act"><span class="visually-hidden">Actions</span></th>
+                </tr>
+              </thead>
+              <tbody id="ccRows"></tbody>
+            </table>
+          </div>
+
+          <div class="panel__actions">
+            <button class="btn btn--primary" type="button" id="ccAdd">Add course</button>
+            <button class="btn btn--ghost" type="button" id="ccReset">Reset</button>
+          </div>
+
+          <p class="msg" id="ccMsg" role="status" aria-live="polite"></p>
+
+          <div class="result">
+            <div class="result__main">
+              <div class="result__label">CGPA</div>
+              <div class="result__value" id="ccValue">&mdash;</div>
+            </div>
+            <dl class="result__stats">
+              <div><dt>Credits counted in CGPA</dt><dd id="ccCounted">0</dd></div>
+              <div><dt>Credits attempted</dt><dd id="ccAttempted">0</dd></div>
+              <div><dt>Total grade points</dt><dd id="ccPoints">0.00</dd></div>
+            </dl>
+          </div>
+
+          <p class="note" id="ccNote" hidden></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= MARKS -> GRADE ================= -->
+  <section class="section" id="marks" aria-labelledby="marksHeading">
+    <div class="wrap">
+      <header class="section__head">
+        <h2 class="section__title" id="marksHeading">Marks to grade</h2>
+        <p class="section__lede">
+          Enter a mark out of 100 to see the letter grade and grade point. Boundaries are
+          inclusive at the bottom only, exactly as published: 79.99 is an A, not an A+.
+        </p>
+      </header>
+
+      <div class="panel panel--marks">
+        <div class="field field--wide">
+          <label class="label" for="marksInput">Marks (0&ndash;100)</label>
+          <input class="input input--big" id="marksInput" type="number" inputmode="decimal"
+                 min="0" max="100" step="0.01" placeholder="e.g. 68.5" autocomplete="off">
+          <p class="msg" id="marksMsg" role="status" aria-live="polite"></p>
+        </div>
+
+        <div class="markout" id="markOut" aria-live="polite">
+          <div class="markout__cell">
+            <div class="result__label">Grade</div>
+            <div class="markout__grade" id="markGrade">&mdash;</div>
+          </div>
+          <div class="markout__cell">
+            <div class="result__label">Grade point</div>
+            <div class="markout__point" id="markPoint">&mdash;</div>
+          </div>
+          <div class="markout__cell markout__cell--band">
+            <div class="result__label">Official band</div>
+            <div class="markout__band" id="markBand">&mdash;</div>
+          </div>
+        </div>
+
+        <div class="ladder" id="ladder" aria-hidden="true"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= GRADE TABLE ================= -->
+  <section class="section section--alt" id="grades" aria-labelledby="gradesHeading">
+    <div class="wrap">
+      <header class="section__head">
+        <h2 class="section__title" id="gradesHeading">Grading system</h2>
+        <p class="section__lede">
+          IUBAT follows a letter grading system on a 4.0 point scale. Grade F is the failing
+          grade. This table is reproduced from the grading system table published on the
+          IUBAT Academics page.
+        </p>
+      </header>
+
+      <div class="panel">
+        <div class="tablewrap">
+          <table class="gtable">
+            <caption class="visually-hidden">Numerical grade, letter grade and grade point</caption>
+            <thead>
+              <tr>
+                <th scope="col">Numerical grade</th>
+                <th scope="col">Letter grade</th>
+                <th scope="col">Grade point</th>
+              </tr>
+            </thead>
+            <tbody id="gradeTableBody"></tbody>
+          </table>
+        </div>
+        <p class="note">
+          Source: IUBAT Academics page, grading system table.
+          <a href="https://iubat.edu/academics/" target="_blank" rel="noopener noreferrer">iubat.edu/academics</a>
+        </p>
+      </div>
+
+      <aside class="callout callout--warn">
+        <h3 class="callout__title">One point needs verification</h3>
+        <p>
+          The Academics page states in prose that the grades A, B+, B, B-, C+, C, C-, D+ and
+          D are considered passing grades, but the grading table on the same page contains no
+          row for C- or D+, and no mark range or grade point is published for them. Because no
+          official values exist for those two grades, they are deliberately left out of this
+          calculator rather than guessed. If your transcript shows a C- or D+, confirm the
+          grade point with the Office of the Registrar.
+        </p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ================= REQUIRED GPA ================= -->
+  <section class="section" id="required" aria-labelledby="reqHeading">
+    <div class="wrap">
+      <header class="section__head">
+        <h2 class="section__title" id="reqHeading">Required GPA calculator</h2>
+        <p class="section__lede">
+          Work out the average GPA you need across your remaining credits to finish at a
+          target CGPA.
+        </p>
+      </header>
+
+      <div class="panel">
+        <div class="grid grid--4">
+          <div class="field">
+            <label class="label" for="reqCurrent">Current CGPA</label>
+            <input class="input" id="reqCurrent" type="number" inputmode="decimal"
+                   min="0" max="4" step="0.01" placeholder="0.00 – 4.00" autocomplete="off">
+          </div>
+          <div class="field">
+            <label class="label" for="reqCompleted">Completed credits</label>
+            <input class="input" id="reqCompleted" type="number" inputmode="decimal"
+                   min="0" step="0.5" placeholder="e.g. 60" autocomplete="off">
+          </div>
+          <div class="field">
+            <label class="label" for="reqTarget">Target CGPA</label>
+            <input class="input" id="reqTarget" type="number" inputmode="decimal"
+                   min="0" max="4" step="0.01" placeholder="0.00 – 4.00" autocomplete="off">
+          </div>
+          <div class="field">
+            <label class="label" for="reqRemaining">Remaining credits</label>
+            <input class="input" id="reqRemaining" type="number" inputmode="decimal"
+                   min="0" step="0.5" placeholder="e.g. 80" autocomplete="off">
+          </div>
+        </div>
+
+        <div class="panel__actions">
+          <button class="btn btn--ghost" type="button" id="reqReset">Reset</button>
+        </div>
+
+        <p class="msg" id="reqMsg" role="status" aria-live="polite"></p>
+
+        <div class="result">
+          <div class="result__main">
+            <div class="result__label">GPA needed in remaining credits</div>
+            <div class="result__value" id="reqValue">&mdash;</div>
+          </div>
+          <dl class="result__stats">
+            <div><dt>Total credits at graduation</dt><dd id="reqTotal">0</dd></div>
+            <div><dt>Grade points needed</dt><dd id="reqNeeded">0.00</dd></div>
+            <div><dt>Highest possible final CGPA</dt><dd id="reqMax">&mdash;</dd></div>
+          </dl>
+        </div>
+
+        <p class="note" id="reqNote" hidden></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= PLANNER ================= -->
+  <section class="section section--alt" id="planner" aria-labelledby="planHeading">
+    <div class="wrap">
+      <header class="section__head">
+        <h2 class="section__title" id="planHeading">Semester planner</h2>
+        <p class="section__lede">
+          Put in the courses you are registering for and the grade you expect in each, to see
+          the GPA that combination would produce. Change a grade to see what it costs you.
+        </p>
+      </header>
+
+      <div class="panel">
+        <p class="panel__hint">
+          Pick a course code to auto-fill its name and credit hours; the
+          credit stays editable afterward.
+        </p>
+        <div class="tablewrap">
+          <table class="ctable" id="planTable">
+            <caption class="visually-hidden">Planned courses</caption>
+            <thead>
+              <tr>
+                <th scope="col" class="ctable__c-name">Course name</th>
+                <th scope="col" class="ctable__c-code">Course code</th>
+                <th scope="col" class="ctable__c-cr">Credits</th>
+                <th scope="col" class="ctable__c-gr">Expected grade</th>
+                <th scope="col" class="ctable__c-act"><span class="visually-hidden">Actions</span></th>
+              </tr>
+            </thead>
+            <tbody id="planRows"></tbody>
+          </table>
+        </div>
+
+        <div class="panel__actions">
+          <button class="btn btn--primary" type="button" id="planAdd">Add course</button>
+          <button class="btn btn--ghost" type="button" id="planReset">Reset</button>
+        </div>
+
+        <p class="msg" id="planMsg" role="status" aria-live="polite"></p>
+
+        <div class="result">
+          <div class="result__main">
+            <div class="result__label">Expected GPA</div>
+            <div class="result__value" id="planValue">&mdash;</div>
+          </div>
+          <dl class="result__stats">
+            <div><dt>Credits counted</dt><dd id="planCounted">0</dd></div>
+            <div><dt>Credits planned</dt><dd id="planAttempted">0</dd></div>
+            <div><dt>Total grade points</dt><dd id="planPoints">0.00</dd></div>
+          </dl>
+        </div>
+
+        <p class="note" id="planNote" hidden></p>
+      </div>
+
+      <aside class="callout">
+        <h3 class="callout__title">Course load</h3>
+        <p>
+          The normal course load for a full time student is twelve credit hours in a semester.
+          A student may register for a minimum of three and a maximum of fifteen credit hours.
+          The load may vary by department and by a student&rsquo;s result.
+        </p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ================= RULES ================= -->
+  <section class="section" id="rules" aria-labelledby="rulesHeading">
+    <div class="wrap">
+      <header class="section__head">
+        <h2 class="section__title" id="rulesHeading">Academic rules</h2>
+        <p class="section__lede">
+          A summary of the published rules that affect the calculations on this page. Nothing
+          here is paraphrased beyond what the official sources state. Where a source is silent
+          or inconsistent, that is said plainly instead of filled in.
+        </p>
+        <p class="verified">Last verified: 17 September 2026</p>
+      </header>
+
+      <div class="rulegrid">
+
+        <article class="rulecard">
+          <h3 class="rulecard__title">Grading system</h3>
+          <ul class="list">
+            <li>IUBAT uses a letter grading system on a 4.0 point scale.</li>
+            <li>Grade F is the failing grade.</li>
+            <li>Mark ranges and grade points are listed in the grading table above.</li>
+            <li>The grade &ldquo;I&rdquo; marks incomplete work and must be removed no later than three weeks from the beginning of the next semester, otherwise it automatically converts to an F.</li>
+            <li>From Spring 2024, no &ldquo;I&rdquo; grade is awarded in mid-term examinations; make-up exams are held centrally instead.</li>
+          </ul>
+        </article>
+
+        <article class="rulecard">
+          <h3 class="rulecard__title">Passing requirements</h3>
+          <ul class="list">
+            <li>Passing grade in core, elective, departmental and English courses is C (plain).</li>
+            <li>Passing grade in thesis and practicum is B- (minus).</li>
+            <li>Passing grade in the comprehensive examination is Satisfactory, which is 45% marks or above. Only students who pass the written comprehensive may sit for the viva, and the written exam and viva must be passed separately.</li>
+            <li>Once a course is taken, the student must pass it, even if that means retaking it.</li>
+          </ul>
+        </article>
+
+        <article class="rulecard">
+          <h3 class="rulecard__title">CGPA requirements</h3>
+          <ul class="list">
+            <li>Credit hours of courses with an F grade are not counted when SGPA and CGPA are calculated.</li>
+            <li>To stay in good standing, a degree student must maintain a CGPA of 2.5 on the 4.0 scale.</li>
+            <li>A student below 2.5 at the end of a semester is placed on probation, and stays on probation until a semester is completed with a CGPA of 2.5 or above, or until suspension or dismissal.</li>
+            <li>Failing to clear probation after two semesters leads to suspension; failing to come out of suspension after two more semesters leads to academic dismissal.</li>
+          </ul>
+        </article>
+
+        <article class="rulecard">
+          <h3 class="rulecard__title">Retake and improvement</h3>
+          <ul class="list">
+            <li>Students with an F who completed all other course requirements, have 80% or above class attendance and attended all the exams may sit for an improvement examination, which covers the final examination only.</li>
+            <li>Students with a D in a course whose passing grade is C, who completed all other requirements and have 80% or above attendance, may also sit for an improvement examination.</li>
+            <li>The highest grade obtainable in an improvement examination is B+.</li>
+            <li>Students who do not reach a passing grade in the improvement examination retake the course.</li>
+            <li>Students with an F and below 80% attendance or incomplete class activities retake the course.</li>
+            <li>Students who score below B (plain) in a course may improve their CGPA by retaking it.</li>
+            <li>Suspended students may improve CGPA by retaking courses with grades below B.</li>
+            <li>The improvement examination fee is Tk. 4,000 per course.</li>
+          </ul>
+        </article>
+
+        <article class="rulecard">
+          <h3 class="rulecard__title">Attendance</h3>
+          <ul class="list">
+            <li>From Fall 2026, students must maintain at least 75% class attendance in each course to be eligible to sit for the mid-term, mid-term make-up, final, I-removal and improvement examinations. This follows the Academic Council decision of 27 June 2026.</li>
+            <li>For Summer 2026 the mid-term was excluded from this policy, and eligibility for the final, I-removal and improvement examinations was based on classes held after the mid-term.</li>
+            <li>Separately, eligibility for an improvement examination requires 80% or above class attendance. The two thresholds serve different purposes and both appear in current sources.</li>
+            <li>An instructor may assign a final grade of F to a student who fails to meet the attendance and assignment requirements of a course, which must be made known within the first two weeks.</li>
+          </ul>
+        </article>
+
+        <article class="rulecard">
+          <h3 class="rulecard__title">Graduation</h3>
+          <ul class="list">
+            <li>The passing CGPA for graduation is a minimum of 2.50.</li>
+            <li>The maximum duration for completing a bachelor degree is seven years.</li>
+            <li>A student who withdraws must complete the program within ten academic years from the date of initial registration.</li>
+          </ul>
+        </article>
+
+        <article class="rulecard rulecard--flag">
+          <h3 class="rulecard__title">Points this site could not verify</h3>
+          <ul class="list">
+            <li>No mark range or grade point is published for C- or D+, although both appear in the prose list of passing grades. They are not implemented here.</li>
+            <li>The mark distribution across first-term, mid-term and final examinations is published as an image in the Spring 2024 notice and could not be read from the page text, so it is not reproduced. Mark distribution for lab, sessional, drawing and workshop courses is set by the respective department.</li>
+            <li>No official rule was found stating how a retaken course replaces or averages with the original grade in the CGPA. Confirm this with the Registrar before relying on any assumption.</li>
+            <li>No EEE-specific grading variation was found; the rules above are university-wide.</li>
+          </ul>
+        </article>
+
+      </div>
+
+      <div class="sources">
+        <h3 class="sources__title">Official sources</h3>
+        <ul class="sources__list">
+          <li><a href="https://iubat.edu/academics/" target="_blank" rel="noopener noreferrer">IUBAT Academics &mdash; academic rules and grading system</a></li>
+          <li><a href="https://iubat.edu/academic-rules-effective-from-the-beginning-of-spring-2024/" target="_blank" rel="noopener noreferrer">Academic rules effective from the beginning of Spring 2024</a></li>
+          <li><a href="https://iubat.edu/notice-for-class-attendance-requirements/" target="_blank" rel="noopener noreferrer">Notice for class attendance requirements</a></li>
+        </ul>
+        <p class="note">Always verify academic decisions with the latest official IUBAT regulations.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ABOUT ================= -->
+  <section class="section section--alt" id="about" aria-labelledby="aboutHeading">
+    <div class="wrap wrap--narrow">
+      <header class="section__head">
+        <h2 class="section__title" id="aboutHeading">About</h2>
+      </header>
+      <div class="prose">
+        <p>
+          IUBAT EEE Academic Calculator is an independent student project designed to help
+          students understand GPA, CGPA, grading and academic calculations.
+        </p>
+        <p class="prose__strong">Not an official IUBAT website.</p>
+        <p>
+          This site is not affiliated with, endorsed by, or connected to IUBAT&mdash;International
+          University of Business Agriculture and Technology. It uses no IUBAT logo, crest or
+          other branding. The grading rules summarised here are quoted from publicly available
+          pages on iubat.edu, linked in full above, and may change without this site being
+          updated. The university&rsquo;s own published regulations and your Registrar always
+          take precedence over anything calculated here.
+        </p>
+        <p>
+          Everything runs in your browser. Nothing you type is sent anywhere, and no analytics,
+          trackers or third-party scripts are loaded. Your courses, semesters and theme
+          preference are stored only in this browser&rsquo;s local storage so the page
+          remembers them on your next visit. You can erase all of it at any time.
+        </p>
+        <div class="panel__actions">
+          <button class="btn btn--danger" type="button" id="clearAll">Clear all saved data</button>
+        </div>
+        <p class="msg" id="clearMsg" role="status" aria-live="polite"></p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap foot__inner">
+    <p class="foot__line">
+      IUBAT EEE Academic Calculator &mdash; an independent student project. Not an official
+      IUBAT website.
+    </p>
+    <p class="foot__line foot__line--dim">
+      Rules last verified 17 September 2026 against iubat.edu. Always verify academic
+      decisions with the latest official IUBAT regulations.
+    </p>
+  </div>
+</footer>
+
+<!-- ============ TEMPLATES ============ -->
+<template id="tplCourseRow">
+  <tr class="crow">
+    <td class="ctable__c-name" data-cell="Course name">
+      <input class="input input--sm" type="text" data-field="name" placeholder="Course name" autocomplete="off">
+    </td>
+    <td class="ctable__c-code" data-cell="Course code">
+      <select class="input input--sm" data-field="code"></select>
+    </td>
+    <td class="ctable__c-cr" data-cell="Credits">
+      <input class="input input--sm" type="number" data-field="credit" min="0" max="30" step="0.5" placeholder="3" inputmode="decimal" autocomplete="off">
+    </td>
+    <td class="ctable__c-gr" data-cell="Grade">
+      <select class="input input--sm" data-field="grade"></select>
+    </td>
+    <td class="ctable__c-act">
+      <button class="iconbtn" type="button" data-action="remove">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M5 7h14M10 7V5.5A1.5 1.5 0 0 1 11.5 4h1A1.5 1.5 0 0 1 14 5.5V7m-6 0 .7 11.1A1.9 1.9 0 0 0 10.6 20h2.8a1.9 1.9 0 0 0 1.9-1.9L16 7"
+                fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+        <span class="visually-hidden">Remove this course</span>
+      </button>
+    </td>
+  </tr>
+</template>
+
+<template id="tplSemesterRow">
+  <tr class="crow">
+    <td data-cell="Semester">
+      <input class="input input--sm" type="text" data-field="name" placeholder="e.g. Spring 2025" autocomplete="off">
+    </td>
+    <td class="ctable__c-cr" data-cell="Credits">
+      <input class="input input--sm" type="number" data-field="credit" min="0" max="60" step="0.5" placeholder="12" inputmode="decimal" autocomplete="off">
+    </td>
+    <td class="ctable__c-cr" data-cell="GPA">
+      <input class="input input--sm" type="number" data-field="gpa" min="0" max="4" step="0.01" placeholder="3.50" inputmode="decimal" autocomplete="off">
+    </td>
+    <td class="ctable__c-act">
+      <button class="iconbtn" type="button" data-action="remove">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M5 7h14M10 7V5.5A1.5 1.5 0 0 1 11.5 4h1A1.5 1.5 0 0 1 14 5.5V7m-6 0 .7 11.1A1.9 1.9 0 0 0 10.6 20h2.8a1.9 1.9 0 0 0 1.9-1.9L16 7"
+                fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+        <span class="visually-hidden">Remove this semester</span>
+      </button>
+    </td>
+  </tr>
+</template>
+
+<script src="script.js"></script>
 </body>
 </html>
