@@ -1,0 +1,402 @@
+[
+  {
+    "code": "APSY 101",
+    "name": "Creating Healthy Relationships: Love & Intimacy",
+    "credit": 0
+  },
+  {
+    "code": "APSY 102",
+    "name": "Stress Management",
+    "credit": 0
+  },
+  {
+    "code": "ART 102",
+    "name": "Educational Planning",
+    "credit": 1
+  },
+  {
+    "code": "ART 202",
+    "name": "Career Planning and Development-I",
+    "credit": 1
+  },
+  {
+    "code": "ART 203",
+    "name": "Career Planning and Development-II",
+    "credit": 1
+  },
+  {
+    "code": "ART 204",
+    "name": "Modern Living",
+    "credit": 2
+  },
+  {
+    "code": "AutoCAD",
+    "name": "AutoCAD",
+    "credit": 0
+  },
+  {
+    "code": "CEN 120",
+    "name": "Civil Engineering Drawing",
+    "credit": 1
+  },
+  {
+    "code": "CHM 115",
+    "name": "General Chemistry",
+    "credit": 3
+  },
+  {
+    "code": "CHM 116",
+    "name": "Chemistry Lab",
+    "credit": 1
+  },
+  {
+    "code": "CSC 103",
+    "name": "Fundamentals of Computers and Applications",
+    "credit": 3
+  },
+  {
+    "code": "CSC 104",
+    "name": "Computer Applications Lab",
+    "credit": 1
+  },
+  {
+    "code": "CSC 183",
+    "name": "Programming C",
+    "credit": 3
+  },
+  {
+    "code": "CSC 184",
+    "name": "Programming C Lab",
+    "credit": 1
+  },
+  {
+    "code": "ECO 101",
+    "name": "Principles of Micro Economics",
+    "credit": 3
+  },
+  {
+    "code": "EEN 183",
+    "name": "Circuit Analysis",
+    "credit": 3
+  },
+  {
+    "code": "EEN 184",
+    "name": "Circuit Lab I",
+    "credit": 1
+  },
+  {
+    "code": "EEN 215",
+    "name": "Engineering Ethics",
+    "credit": 1
+  },
+  {
+    "code": "EEN 225",
+    "name": "Circuit Analysis II",
+    "credit": 3
+  },
+  {
+    "code": "EEN 226",
+    "name": "Circuit Analysis II Lab",
+    "credit": 1
+  },
+  {
+    "code": "EEN 257",
+    "name": "Electrical Machines I",
+    "credit": 3
+  },
+  {
+    "code": "EEN 258",
+    "name": "Electrical Machines I Practice",
+    "credit": 1
+  },
+  {
+    "code": "EEN 265",
+    "name": "Electronic Analysis and Design I",
+    "credit": 3
+  },
+  {
+    "code": "EEN 266",
+    "name": "Electronic I Lab",
+    "credit": 1
+  },
+  {
+    "code": "EEN 275",
+    "name": "Electric and Magnetic Fields",
+    "credit": 3
+  },
+  {
+    "code": "EEN 287",
+    "name": "Electrical Machines II",
+    "credit": 3
+  },
+  {
+    "code": "EEN 288",
+    "name": "Electrical Machines II Practice",
+    "credit": 1
+  },
+  {
+    "code": "EEN 303",
+    "name": "Linear Circuits and Systems",
+    "credit": 3
+  },
+  {
+    "code": "EEN 315",
+    "name": "Electronic Analysis and Design II",
+    "credit": 3
+  },
+  {
+    "code": "EEN 316",
+    "name": "Electronic Analysis and Design II Lab",
+    "credit": 1
+  },
+  {
+    "code": "EEN 329",
+    "name": "Digital Logic Design",
+    "credit": 3
+  },
+  {
+    "code": "EEN 330",
+    "name": "Digital Logic Lab",
+    "credit": 1
+  },
+  {
+    "code": "EEN 347",
+    "name": "Electrical Properties of Material",
+    "credit": 2
+  },
+  {
+    "code": "EEN 348",
+    "name": "Electrical Wiring and Estimation",
+    "credit": 1
+  },
+  {
+    "code": "EEN 361",
+    "name": "Power Transmission and Distribution",
+    "credit": 3
+  },
+  {
+    "code": "EEN 373",
+    "name": "Microprocessor Systems and Interfacing",
+    "credit": 3
+  },
+  {
+    "code": "EEN 374",
+    "name": "Microprocessor Interfacing Lab",
+    "credit": 1
+  },
+  {
+    "code": "EEN 403",
+    "name": "Digital Signal Processing",
+    "credit": 3
+  },
+  {
+    "code": "EEN 404",
+    "name": "Digital Signal Processing Lab",
+    "credit": 1
+  },
+  {
+    "code": "EEN 405",
+    "name": "Industrial Electronics",
+    "credit": 3
+  },
+  {
+    "code": "EEN 406",
+    "name": "Industrial Electronics Lab",
+    "credit": 1
+  },
+  {
+    "code": "EEN 407",
+    "name": "Feedback System Analysis and Design",
+    "credit": 3
+  },
+  {
+    "code": "EEN 408",
+    "name": "Feedback System Lab",
+    "credit": 1
+  },
+  {
+    "code": "EEN 413",
+    "name": "Project Evaluation, Planning and Management",
+    "credit": 3
+  },
+  {
+    "code": "EEN 431",
+    "name": "Transmission of Information",
+    "credit": 3
+  },
+  {
+    "code": "EEN 432",
+    "name": "Communications Practice",
+    "credit": 1
+  },
+  {
+    "code": "EEN 441",
+    "name": "Measurement and Instrumentation",
+    "credit": 3
+  },
+  {
+    "code": "EEN 442",
+    "name": "Measurement and Instrumentation Lab",
+    "credit": 1
+  },
+  {
+    "code": "EEN 453",
+    "name": "Power System Analysis",
+    "credit": 3
+  },
+  {
+    "code": "EEN 454",
+    "name": "Power System Analysis Practice",
+    "credit": 1
+  },
+  {
+    "code": "EEN 455",
+    "name": "Power Stations",
+    "credit": 3
+  },
+  {
+    "code": "EEN 463",
+    "name": "Switchgear and Protective Relays",
+    "credit": 3
+  },
+  {
+    "code": "EEN 464",
+    "name": "Switchgear and Protective Relays Lab",
+    "credit": 1
+  },
+  {
+    "code": "EEN 471",
+    "name": "Digital and Satellite Communication Engineering",
+    "credit": 3
+  },
+  {
+    "code": "EEN 472",
+    "name": "Digital and Satellite Communication Lab",
+    "credit": 1
+  },
+  {
+    "code": "EEN 483",
+    "name": "VLSI",
+    "credit": 3
+  },
+  {
+    "code": "EEN 484",
+    "name": "VLSI Lab",
+    "credit": 1
+  },
+  {
+    "code": "EEN 487",
+    "name": "Biomedical Electronics",
+    "credit": 3
+  },
+  {
+    "code": "EEN 488",
+    "name": "Thesis",
+    "credit": 3
+  },
+  {
+    "code": "EEN 490",
+    "name": "Practicum",
+    "credit": 6
+  },
+  {
+    "code": "ELP 005",
+    "name": "Advanced Spoken English",
+    "credit": 1
+  },
+  {
+    "code": "ENG 101",
+    "name": "Basic English Composition",
+    "credit": 4
+  },
+  {
+    "code": "ENG 102",
+    "name": "English Comprehensions and Speaking",
+    "credit": 3
+  },
+  {
+    "code": "ENG 203",
+    "name": "Advanced English Composition",
+    "credit": 2
+  },
+  {
+    "code": "ENG 250",
+    "name": "Public Speaking",
+    "credit": 2
+  },
+  {
+    "code": "ENV 103",
+    "name": "Environmental Science",
+    "credit": 2
+  },
+  {
+    "code": "GIS",
+    "name": "GIS",
+    "credit": 0
+  },
+  {
+    "code": "MAT 147",
+    "name": "Applied Calculus",
+    "credit": 3
+  },
+  {
+    "code": "MAT 167",
+    "name": "Calculus I",
+    "credit": 3
+  },
+  {
+    "code": "MAT 197",
+    "name": "Calculus II",
+    "credit": 3
+  },
+  {
+    "code": "MAT 219",
+    "name": "Linear Algebra",
+    "credit": 2
+  },
+  {
+    "code": "MAT 237",
+    "name": "Calculus III",
+    "credit": 3
+  },
+  {
+    "code": "MAT 247",
+    "name": "Numerical Analysis",
+    "credit": 3
+  },
+  {
+    "code": "MEC 173",
+    "name": "Introduction to Mechanical Engineering",
+    "credit": 3
+  },
+  {
+    "code": "PDNA",
+    "name": "Power Distribution Network Analysis",
+    "credit": 0
+  },
+  {
+    "code": "PHI 114",
+    "name": "Introduction to Philosophy",
+    "credit": 3
+  },
+  {
+    "code": "PHY 111",
+    "name": "Physics",
+    "credit": 3
+  },
+  {
+    "code": "PHY 112",
+    "name": "Physics Lab",
+    "credit": 1
+  },
+  {
+    "code": "PHY 121",
+    "name": "Advanced Physics",
+    "credit": 3
+  },
+  {
+    "code": "PSNA",
+    "name": "Power System Network Analysis",
+    "credit": 0
+  }
+]
