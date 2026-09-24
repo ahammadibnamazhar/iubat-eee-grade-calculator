@@ -1,0 +1,25 @@
+{
+  "name": "IUBAT EEE Academic Dashboard",
+  "short_name": "EEE Dashboard",
+  "description": "An independent academic dashboard for IUBAT EEE students: GPA, CGPA, semester planning, attendance and degree progress, calculated entirely in your browser.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f4f6fc",
+  "theme_color": "#3949c9",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "assets/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
