@@ -20,6 +20,12 @@
 <meta name="twitter:description" content="An independent academic dashboard for IUBAT EEE students: GPA, CGPA, planning and grading, all calculated in your browser.">
 
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="EEE Dashboard">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=IBM+Plex+Sans:wght@400;500;600;700&amp;display=swap">
@@ -53,14 +59,29 @@
         <li><a href="#dashboard">Dashboard</a></li>
         <li><a href="#gpa">GPA</a></li>
         <li><a href="#cgpa">CGPA</a></li>
+        <li><a href="#history">Academic history</a></li>
         <li><a href="#marks">Marks to grade</a></li>
+        <li><a href="#catalog">Course catalog</a></li>
+        <li><a href="#attendance">Attendance</a></li>
         <li><a href="#grades">Grade table</a></li>
         <li><a href="#required">Required GPA</a></li>
         <li><a href="#planner">Planner</a></li>
+        <li><a href="#whatif">What-if</a></li>
+        <li><a href="#improve">Grade improvement</a></li>
         <li><a href="#rules">Rules</a></li>
         <li><a href="#about">About</a></li>
+        <li><a href="#settings">Settings</a></li>
       </ul>
     </nav>
+
+    <button class="themebtn" id="searchTrigger" type="button" aria-haspopup="dialog" aria-controls="commandPalette">
+      <svg class="themebtn__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"></circle>
+        <path d="M20 20l-3.4-3.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+      </svg>
+      <span class="themebtn__label" id="searchTriggerLabel">Search</span>
+      <kbd class="cmdk__kbd" aria-hidden="true">Ctrl K</kbd>
+    </button>
 
     <button class="themebtn" id="themeToggle" type="button" aria-pressed="false">
       <svg class="themebtn__icon themebtn__icon--sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -139,6 +160,63 @@
         </p>
       </header>
 
+      <div class="panel" id="profileCard" style="margin-bottom: var(--space-5);">
+        <div class="profile__row">
+          <div class="profile__id">
+            <p class="profile__name" id="profileNameDisplay">Add your name in Settings</p>
+            <p class="profile__meta" id="profileMetaDisplay">B.Sc. in Electrical &amp; Electronic Engineering (EEE) &middot; IUBAT</p>
+          </div>
+          <button class="btn btn--ghost btn--sm" type="button" id="profileEditBtn" aria-expanded="false" aria-controls="profileForm">
+            Edit profile
+          </button>
+        </div>
+
+        <form class="profile__form" id="profileForm" hidden>
+          <div class="grid grid--4">
+            <div class="field">
+              <label class="label" for="profName">Student name</label>
+              <input class="input input--sm" type="text" id="profName" autocomplete="name" placeholder="Your name">
+            </div>
+            <div class="field">
+              <label class="label" for="profId">Student ID</label>
+              <input class="input input--sm" type="text" id="profId" autocomplete="off" placeholder="e.g. 22103xxxx">
+            </div>
+            <div class="field">
+              <label class="label" for="profSemester">Current semester</label>
+              <input class="input input--sm" type="text" id="profSemester" list="semesterTermList" autocomplete="off" placeholder="e.g. Fall 2026">
+            </div>
+            <div class="field">
+              <label class="label" for="profGradYear">Expected graduation year</label>
+              <input class="input input--sm" type="text" inputmode="numeric" id="profGradYear" autocomplete="off" placeholder="e.g. 2028">
+            </div>
+            <div class="field">
+              <label class="label" for="profProgram">Program</label>
+              <input class="input input--sm" type="text" id="profProgram" autocomplete="off">
+            </div>
+            <div class="field">
+              <label class="label" for="profDept">Department</label>
+              <input class="input input--sm" type="text" id="profDept" autocomplete="off">
+            </div>
+            <div class="field">
+              <label class="label" for="profUniversity">University</label>
+              <input class="input input--sm" type="text" id="profUniversity" autocomplete="off">
+            </div>
+            <div class="field">
+              <label class="label" for="profAdmissionYear">Admission year</label>
+              <input class="input input--sm" type="text" inputmode="numeric" id="profAdmissionYear" autocomplete="off" placeholder="e.g. 2024">
+            </div>
+          </div>
+          <p class="msg msg--hint">
+            Stored only in this browser. Student ID and admission year are left blank by
+            default &mdash; nothing here is guessed on your behalf.
+          </p>
+          <div class="panel__actions">
+            <button class="btn btn--primary btn--sm" type="submit">Save profile</button>
+            <button class="btn btn--ghost btn--sm" type="button" id="profileCancelBtn">Cancel</button>
+          </div>
+        </form>
+      </div>
+
       <div class="statgrid">
         <div class="statcard">
           <div class="statcard__top">
@@ -184,6 +262,17 @@
           <p class="statcard__sub">Recorded in the CGPA calculator</p>
         </div>
 
+        <div class="statcard">
+          <div class="statcard__top">
+            <span class="statcard__label">Remaining credits</span>
+            <span class="statcard__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M12 4v16M4 12h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            </span>
+          </div>
+          <div class="statcard__value" id="dashRemaining">0</div>
+          <p class="statcard__sub">Toward the credit total below</p>
+        </div>
+
         <div class="statcard statcard--target">
           <div class="statcard__top">
             <span class="statcard__label">Target CGPA</span>
@@ -191,8 +280,8 @@
               <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/></svg>
             </span>
           </div>
-          <label class="visually-hidden" for="reqTarget">Target CGPA</label>
-          <p class="statcard__sub">Set it in the Required GPA calculator below to see progress here.</p>
+          <div class="statcard__value" id="dashTarget">—</div>
+          <p class="statcard__sub" id="dashTargetSub">Set it in the Required GPA calculator below.</p>
         </div>
       </div>
 
@@ -202,16 +291,17 @@
           <span class="progresscard__meta">
             Total credits for your program:
             <input class="input" id="dashTotalCredits" type="number" inputmode="decimal" min="1" step="1"
-                   placeholder="136" aria-label="Total credits required for your program" autocomplete="off">
+                   placeholder="158" aria-label="Total credits required for your program" autocomplete="off">
           </span>
         </div>
         <div class="progressbar" id="dashProgressBar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Credits completed toward your degree">
           <div class="progressbar__fill" id="dashProgressFill"></div>
         </div>
-        <p class="progressbar__text" id="dashProgressText">0 of 136 credits completed (0%).</p>
+        <p class="progressbar__text" id="dashProgressText">0 of 158 credits completed (0%).</p>
+        <p class="msg msg--hint" id="dashCourseCounts">Completed courses: 0. Remaining courses: not available (needs the full official curriculum).</p>
         <p class="msg msg--hint">
-          The total isn&rsquo;t officially confirmed for every catalog year, so it&rsquo;s
-          editable &mdash; set it once to match your own program guide.
+          Defaults to 158 credits for the IUBAT EEE program. If your own catalog year
+          differs, edit the number above &mdash; it&rsquo;s saved for next time.
         </p>
       </div>
 
@@ -237,17 +327,9 @@
       <div class="panel">
         <h3 class="callout__title" style="margin-bottom: var(--space-3);">Your data</h3>
         <p class="panel__hint">
-          Everything above is calculated from data stored only in this browser. Export a
-          backup, move it to another device, or print a clean summary &mdash; nothing is
-          ever sent anywhere.
+          Everything above is calculated from data stored only in this browser. Export,
+          import, print or clear it from <a href="#settings">Settings</a>.
         </p>
-        <div class="datatools">
-          <button class="btn btn--ghost" type="button" id="exportData">Export data (.json)</button>
-          <button class="btn btn--ghost" type="button" id="importDataBtn">Import data</button>
-          <input class="datatools__hidden-input" type="file" id="importDataFile" accept="application/json,.json">
-          <button class="btn btn--ghost" type="button" id="printSummary">Print academic summary</button>
-          <p class="datatools__note">Import overwrites the data currently saved in this browser, after you confirm.</p>
-        </div>
       </div>
     </div>
   </section>
@@ -422,6 +504,77 @@
     </div>
   </section>
 
+  <!-- ================= ACADEMIC HISTORY ================= -->
+  <section class="section" id="history" aria-labelledby="historyHeading">
+    <div class="wrap">
+      <header class="section__head">
+        <h2 class="section__title" id="historyHeading">Academic history</h2>
+        <p class="section__lede">
+          A course-by-course record tagged with the semester it was taken in, so you can
+          search, filter, and see the GPA/CGPA rollup per semester &mdash; separate from the
+          two quick CGPA methods above, which don&rsquo;t track which semester each course
+          belongs to.
+        </p>
+      </header>
+
+      <div class="panel">
+        <div class="grid" style="grid-template-columns: 2fr 1fr; margin-bottom: var(--space-4);">
+          <div class="field">
+            <label class="label" for="historySearch">Search course</label>
+            <input class="input" type="text" id="historySearch" placeholder="Search by code or name" autocomplete="off">
+          </div>
+          <div class="field">
+            <label class="label" for="historyFilter">Filter by semester</label>
+            <select class="input" id="historyFilter">
+              <option value="">All semesters</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="tablewrap">
+          <table class="ctable" id="historyTable">
+            <caption class="visually-hidden">Academic history records</caption>
+            <thead>
+              <tr>
+                <th scope="col" class="ctable__c-cr">Semester</th>
+                <th scope="col" class="ctable__c-name">Course name</th>
+                <th scope="col" class="ctable__c-code">Course</th>
+                <th scope="col" class="ctable__c-cr">Credit</th>
+                <th scope="col" class="ctable__c-gr">Grade</th>
+                <th scope="col" class="ctable__c-act"><span class="visually-hidden">Actions</span></th>
+              </tr>
+            </thead>
+            <tbody id="historyRows"></tbody>
+          </table>
+        </div>
+
+        <div class="panel__actions">
+          <button class="btn btn--primary" type="button" id="historyAdd">Add record</button>
+          <button class="btn btn--ghost" type="button" id="historyReset">Clear history</button>
+        </div>
+        <p class="msg" id="historyMsg" role="status" aria-live="polite"></p>
+
+        <h3 class="callout__title" style="margin: var(--space-6) 0 var(--space-3);">Per-semester rollup</h3>
+        <div class="tablewrap">
+          <table class="gtable" id="historySummaryTable">
+            <caption class="visually-hidden">GPA and cumulative CGPA by semester</caption>
+            <thead>
+              <tr><th scope="col">Semester</th><th scope="col">Courses</th><th scope="col">Credits</th><th scope="col">Semester GPA</th><th scope="col">Cumulative CGPA</th></tr>
+            </thead>
+            <tbody id="historySummaryRows">
+              <tr><td colspan="5" class="msg msg--hint">Add records above to see semester GPA and cumulative CGPA here.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="msg msg--hint">
+          This rollup is computed only from records entered here &mdash; it is independent
+          of the GPA/CGPA calculators above, so the two won&rsquo;t automatically match
+          unless you enter the same courses in both places.
+        </p>
+      </div>
+    </div>
+  </section>
+
   <!-- ================= MARKS -> GRADE ================= -->
   <section class="section" id="marks" aria-labelledby="marksHeading">
     <div class="wrap">
@@ -457,6 +610,96 @@
         </div>
 
         <div class="ladder" id="ladder" aria-hidden="true"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= COURSE CATALOG ================= -->
+  <section class="section" id="catalog" aria-labelledby="catalogHeading">
+    <div class="wrap">
+      <header class="section__head">
+        <h2 class="section__title" id="catalogHeading">Course catalog</h2>
+        <p class="section__lede">
+          Every course in <code>data/courses.json</code>, browsable by subject group. This
+          is the same catalog the search boxes above use &mdash; nothing here is duplicated
+          or re-typed. Filtering by semester, category or completion status isn&rsquo;t
+          available yet, since that per-student status isn&rsquo;t part of the course data.
+        </p>
+      </header>
+
+      <div class="panel">
+        <div class="field field--wide" style="margin: 0 0 var(--space-4);">
+          <label class="label" for="catalogSearch">Search by code or name</label>
+          <input class="input" type="text" id="catalogSearch" placeholder="e.g. EEN, Circuit, Calculus" autocomplete="off">
+        </div>
+        <p class="msg msg--hint" id="catalogCount">Loading catalog…</p>
+        <div class="cataloglist" id="catalogList"></div>
+      </div>
+
+      <div class="panel" style="margin-top: var(--space-5);">
+        <h3 class="callout__title" style="margin-bottom: var(--space-3);">Prerequisite checker</h3>
+        <p class="panel__hint">
+          Foundation only: <code>data/courses.json</code> doesn&rsquo;t currently include
+          prerequisite data for any course, so this always reports it as unavailable
+          rather than guessing. Once a verified prerequisite list is added to the
+          catalog, this tool will check it against your completed courses (from the GPA,
+          CGPA-by-course and Academic History tables) automatically &mdash; no other
+          changes will be needed.
+        </p>
+        <div class="field field--wide" style="margin: 0 0 var(--space-4);">
+          <label class="label" for="prereqSearch">Course</label>
+          <input class="input" type="text" id="prereqSearch" list="courseCatalogList" placeholder="Search a course" autocomplete="off">
+        </div>
+        <div class="note" id="prereqOut">Search a course to see its prerequisites.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ATTENDANCE ================= -->
+  <section class="section section--alt" id="attendance" aria-labelledby="attendanceHeading">
+    <div class="wrap">
+      <header class="section__head">
+        <h2 class="section__title" id="attendanceHeading">Attendance tracker</h2>
+        <p class="section__lede">
+          Plain arithmetic on the numbers you enter &mdash; this tool does not apply an
+          official IUBAT attendance policy, since that threshold isn&rsquo;t verified here.
+          Enter your own target percentage below.
+        </p>
+      </header>
+
+      <div class="panel">
+        <div class="grid grid--4">
+          <div class="field">
+            <label class="label" for="attTotal">Total classes held</label>
+            <input class="input" id="attTotal" type="number" inputmode="decimal" min="0" step="1" placeholder="40" autocomplete="off">
+          </div>
+          <div class="field">
+            <label class="label" for="attAttended">Classes attended</label>
+            <input class="input" id="attAttended" type="number" inputmode="decimal" min="0" step="1" placeholder="34" autocomplete="off">
+          </div>
+          <div class="field">
+            <label class="label" for="attRemaining">Classes remaining</label>
+            <input class="input" id="attRemaining" type="number" inputmode="decimal" min="0" step="1" placeholder="8" autocomplete="off">
+          </div>
+          <div class="field">
+            <label class="label" for="attTarget">Target attendance (%)</label>
+            <input class="input" id="attTarget" type="number" inputmode="decimal" min="1" max="100" step="0.1" placeholder="80" autocomplete="off">
+          </div>
+        </div>
+        <p class="msg" id="attMsg" role="status" aria-live="polite"></p>
+
+        <div class="result" id="attOut" aria-live="polite">
+          <div class="result__main">
+            <div class="result__label">Current attendance</div>
+            <div class="result__value" id="attCurrent">&mdash;</div>
+          </div>
+          <dl class="result__stats">
+            <div><dt>Classes missed so far</dt><dd id="attMissed">&mdash;</dd></div>
+            <div><dt>Need to attend of remaining</dt><dd id="attNeeded">&mdash;</dd></div>
+            <div><dt>Absences still allowed</dt><dd id="attSlack">&mdash;</dd></div>
+          </dl>
+        </div>
+        <p class="note" id="attNote" hidden></p>
       </div>
     </div>
   </section>
@@ -577,6 +820,11 @@
       </header>
 
       <div class="panel">
+        <div class="field field--wide" style="margin: 0 0 var(--space-4);">
+          <label class="label" for="planSemester">Planning for semester</label>
+          <input class="input" type="text" id="planSemester" list="semesterTermList"
+                 placeholder="e.g. Summer 2026" autocomplete="off">
+        </div>
         <p class="panel__hint">
           Search for a course to auto-fill its name and credit hours; both stay
           editable afterward.
@@ -635,6 +883,153 @@
     </div>
   </section>
 
+  <!-- ================= WHAT-IF SIMULATOR ================= -->
+  <section class="section" id="whatif" aria-labelledby="whatifHeading">
+    <div class="wrap">
+      <header class="section__head">
+        <h2 class="section__title" id="whatifHeading">What-if CGPA simulator</h2>
+        <p class="section__lede">
+          A free-form scratchpad for hypothetical courses &mdash; try any combination of
+          grades and see the projected effect on your CGPA. This is completely separate
+          from the Semester planner above: nothing here is meant to become a real
+          semester plan, and it never touches your actual academic records.
+        </p>
+      </header>
+
+      <div class="panel">
+        <p class="panel__hint">
+          Add any courses and grades you want to test. Search for a real course to
+          auto-fill its credit hours, or just type made-up ones &mdash; this tool doesn&rsquo;t
+          care either way.
+        </p>
+        <div class="tablewrap">
+          <table class="ctable" id="whatifTable">
+            <caption class="visually-hidden">Hypothetical courses</caption>
+            <thead>
+              <tr>
+                <th scope="col" class="ctable__c-name">Course name</th>
+                <th scope="col" class="ctable__c-code">Course</th>
+                <th scope="col" class="ctable__c-cr">Credits</th>
+                <th scope="col" class="ctable__c-gr">Hypothetical grade</th>
+                <th scope="col" class="ctable__c-act"><span class="visually-hidden">Actions</span></th>
+              </tr>
+            </thead>
+            <tbody id="whatifRows"></tbody>
+          </table>
+        </div>
+
+        <div class="panel__actions">
+          <button class="btn btn--primary" type="button" id="whatifAdd">Add hypothetical course</button>
+          <button class="btn btn--ghost" type="button" id="whatifReset">Reset simulation</button>
+        </div>
+
+        <p class="msg" id="whatifMsg" role="status" aria-live="polite"></p>
+
+        <div class="result">
+          <div class="result__main">
+            <div class="result__label">Projected semester GPA</div>
+            <div class="result__value" id="whatifValue">&mdash;</div>
+          </div>
+          <dl class="result__stats">
+            <div><dt>Credits counted</dt><dd id="whatifCounted">0</dd></div>
+            <div><dt>Credits attempted</dt><dd id="whatifAttempted">0</dd></div>
+            <div><dt>Total grade points</dt><dd id="whatifPoints">0.00</dd></div>
+          </dl>
+        </div>
+        <p class="note" id="whatifNote" hidden></p>
+
+        <div class="markout" style="margin-top: var(--space-5);">
+          <div class="markout__cell">
+            <p class="statcard__label">Current CGPA</p>
+            <p class="markout__point" id="whatifCurrentCgpa">—</p>
+          </div>
+          <div class="markout__cell">
+            <p class="statcard__label">Projected CGPA</p>
+            <p class="markout__point" id="whatifProjectedCgpa">—</p>
+          </div>
+          <div class="markout__cell">
+            <p class="statcard__label">Change</p>
+            <p class="markout__point" id="whatifDelta">—</p>
+          </div>
+        </div>
+        <p class="msg msg--hint">
+          Current/Projected CGPA use whichever completed-courses total your CGPA
+          calculator above already has (semester method preferred, course method as a
+          fallback). An estimate only.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= GRADE IMPROVEMENT SIMULATOR ================= -->
+  <section class="section section--alt" id="improve" aria-labelledby="improveHeading">
+    <div class="wrap">
+      <header class="section__head">
+        <h2 class="section__title" id="improveHeading">Grade improvement simulator</h2>
+        <p class="section__lede">
+          A plain arithmetic comparison of one course's grade point before and after,
+          and what that alone does to your CGPA.
+        </p>
+      </header>
+
+      <div class="panel panel--marks">
+        <div class="grid grid--4" style="text-align: left;">
+          <div class="field">
+            <label class="label" for="impName">Course (optional)</label>
+            <input class="input" type="text" id="impName" list="courseCatalogList" placeholder="Search a course" autocomplete="off">
+          </div>
+          <div class="field">
+            <label class="label" for="impCredit">Credit hours</label>
+            <input class="input" type="number" id="impCredit" min="0" step="1" inputmode="decimal">
+          </div>
+          <div class="field">
+            <label class="label" for="impOldGrade">Current grade</label>
+            <select class="input" id="impOldGrade"></select>
+          </div>
+          <div class="field">
+            <label class="label" for="impNewGrade">Improved grade</label>
+            <select class="input" id="impNewGrade"></select>
+          </div>
+        </div>
+
+        <p class="msg" id="impMsg" role="status" aria-live="polite"></p>
+
+        <div class="markout" style="margin-top: var(--space-5);">
+          <div class="markout__cell">
+            <p class="statcard__label">Old grade points</p>
+            <p class="markout__point" id="impOldPoints">—</p>
+          </div>
+          <div class="markout__cell">
+            <p class="statcard__label">New grade points</p>
+            <p class="markout__point" id="impNewPoints">—</p>
+          </div>
+          <div class="markout__cell">
+            <p class="statcard__label">Improvement</p>
+            <p class="markout__point" id="impDelta">—</p>
+          </div>
+        </div>
+
+        <div class="result" style="margin-top: var(--space-4);">
+          <div class="result__main">
+            <div class="result__label">Projected CGPA after this change</div>
+            <div class="result__value" id="impProjectedCgpa">&mdash;</div>
+          </div>
+          <dl class="result__stats">
+            <div><dt>Current CGPA used</dt><dd id="impCurrentCgpa">—</dd></div>
+          </dl>
+        </div>
+
+        <div class="callout callout--warn" style="margin-top: var(--space-5);">
+          <p><strong>Simulation only.</strong> Actual grade improvement/retake rules depend
+          on university regulations. This tool only performs the arithmetic of swapping one
+          grade for another in the CGPA formula &mdash; it does not know whether IUBAT allows
+          a retake for this course, whether the old grade is replaced or averaged, or any
+          other policy detail.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ================= RULES ================= -->
   <section class="section" id="rules" aria-labelledby="rulesHeading">
     <div class="wrap">
@@ -645,7 +1040,7 @@
           here is paraphrased beyond what the official sources state. Where a source is silent
           or inconsistent, that is said plainly instead of filled in.
         </p>
-        <p class="verified">Last verified: 17 September 2026</p>
+        <p class="verified">Grading rules verified against iubat.edu on 17 September 2026</p>
       </header>
 
       <div class="rulegrid">
@@ -763,12 +1158,72 @@
           Everything runs in your browser. Nothing you type is sent anywhere, and no analytics,
           trackers or third-party scripts are loaded. Your courses, semesters and theme
           preference are stored only in this browser&rsquo;s local storage so the page
-          remembers them on your next visit. You can erase all of it at any time.
+          remembers them on your next visit. Manage or erase your data any time from
+          <a href="#settings">Settings</a>.
         </p>
-        <div class="panel__actions">
-          <button class="btn btn--danger" type="button" id="clearAll">Clear all saved data</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= SETTINGS ================= -->
+  <section class="section section--alt" id="settings" aria-labelledby="settingsHeading">
+    <div class="wrap">
+      <header class="section__head">
+        <h2 class="section__title" id="settingsHeading">Settings</h2>
+        <p class="section__lede">Appearance, your data, and academic defaults — all in one place.</p>
+      </header>
+
+      <div class="rulegrid">
+        <div class="rulecard">
+          <h3 class="rulecard__title">Appearance</h3>
+          <div class="field">
+            <label class="label" for="settingsTheme">Theme</label>
+            <select class="input" id="settingsTheme">
+              <option value="system">System</option>
+              <option value="light">Light</option>
+              <option value="dark">Dark</option>
+            </select>
+          </div>
+          <p class="msg msg--hint">System follows your device&rsquo;s light/dark setting until you pick one.</p>
         </div>
-        <p class="msg" id="clearMsg" role="status" aria-live="polite"></p>
+
+        <div class="rulecard">
+          <h3 class="rulecard__title">Academic</h3>
+          <p class="msg msg--hint" style="margin-top:0;">
+            Total degree credits used by the dashboard&rsquo;s progress bar:
+            <strong id="settingsTotalCreditsDisplay">158</strong>. Change it in the
+            <a href="#dashboard">dashboard</a>&rsquo;s progress card &mdash; it updates here too.
+          </p>
+        </div>
+
+        <div class="rulecard" style="grid-column: 1 / -1;">
+          <h3 class="rulecard__title">Your data</h3>
+          <p class="panel__hint">
+            Export a backup, move it to another device, print a clean summary, or start
+            over completely. Nothing here is ever sent anywhere.
+          </p>
+          <div class="datatools">
+            <button class="btn btn--ghost" type="button" id="exportData">Export data (.json)</button>
+            <button class="btn btn--ghost" type="button" id="exportDataCsv">Export data (.csv)</button>
+            <button class="btn btn--ghost" type="button" id="importDataBtn">Import data</button>
+            <input class="datatools__hidden-input" type="file" id="importDataFile" accept="application/json,.json">
+            <button class="btn btn--ghost" type="button" id="printSummary">Print academic summary</button>
+            <p class="datatools__note">Import overwrites the data currently saved in this browser, after you confirm.</p>
+          </div>
+        </div>
+
+        <div class="rulecard rulecard--flag" style="grid-column: 1 / -1;">
+          <h3 class="rulecard__title">Privacy</h3>
+          <p>
+            Academic information (courses, grades, semesters, planner, attendance, profile,
+            theme) is stored only in this browser using LocalStorage. It is never uploaded
+            to a server automatically, and this site loads no analytics or tracking scripts.
+          </p>
+          <div class="panel__actions">
+            <button class="btn btn--danger" type="button" id="clearAll">Clear all saved data</button>
+          </div>
+          <p class="msg" id="clearMsg" role="status" aria-live="polite"></p>
+        </div>
       </div>
     </div>
   </section>
@@ -782,13 +1237,28 @@
       IUBAT website.
     </p>
     <p class="foot__line foot__line--dim">
-      Rules last verified 17 September 2026 against iubat.edu. Always verify academic
+      Grading rules verified against iubat.edu on 17 September 2026. Always verify academic
       decisions with the latest official IUBAT regulations.
     </p>
   </div>
 </footer>
 
 <!-- ============ TEMPLATES ============ -->
+
+<!-- Shared list of academic terms. Free text everywhere it's used, so any
+     term can still be typed by hand — this only suggests the common ones,
+     including Summer 2026. -->
+<datalist id="semesterTermList">
+  <option value="Spring 2025"></option>
+  <option value="Summer 2025"></option>
+  <option value="Fall 2025"></option>
+  <option value="Spring 2026"></option>
+  <option value="Summer 2026"></option>
+  <option value="Fall 2026"></option>
+  <option value="Spring 2027"></option>
+  <option value="Summer 2027"></option>
+  <option value="Fall 2027"></option>
+</datalist>
 
 <!-- Shared course search list, populated from data/courses.json once it loads.
      Used by every course-code search box in the page via list="courseCatalogList". -->
@@ -825,13 +1295,16 @@
 <template id="tplSemesterRow">
   <tr class="crow">
     <td data-cell="Semester">
-      <input class="input input--sm" type="text" data-field="name" placeholder="e.g. Spring 2025" autocomplete="off">
+      <input class="input input--sm" type="text" data-field="name" list="semesterTermList"
+             placeholder="e.g. Fall 2026" autocomplete="off">
     </td>
     <td class="ctable__c-cr" data-cell="Credits">
-      <input class="input input--sm" type="number" data-field="credit" min="0" max="60" step="0.5" placeholder="12" inputmode="decimal" autocomplete="off">
+      <input class="input input--sm" type="number" data-field="credit" min="0" max="60" step="0.5"
+             placeholder="15" inputmode="decimal" autocomplete="off">
     </td>
     <td class="ctable__c-cr" data-cell="GPA">
-      <input class="input input--sm" type="number" data-field="gpa" min="0" max="4" step="0.01" placeholder="3.50" inputmode="decimal" autocomplete="off">
+      <input class="input input--sm" type="number" data-field="gpa" min="0" max="4" step="0.01"
+             placeholder="3.50" inputmode="decimal" autocomplete="off">
     </td>
     <td class="ctable__c-act">
       <button class="iconbtn" type="button" data-action="remove">
@@ -839,13 +1312,57 @@
           <path d="M5 7h14M10 7V5.5A1.5 1.5 0 0 1 11.5 4h1A1.5 1.5 0 0 1 14 5.5V7m-6 0 .7 11.1A1.9 1.9 0 0 0 10.6 20h2.8a1.9 1.9 0 0 0 1.9-1.9L16 7"
                 fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
         </svg>
-        <span class="visually-hidden">Remove this semester</span>
+        <span class="visually-hidden">Remove semester</span>
       </button>
     </td>
   </tr>
 </template>
 
-<!-- Toasts: small, auto-dismissing status messages (course added, data exported, etc.) -->
+<template id="tplHistoryRow">
+  <tr class="crow">
+    <td class="ctable__c-cr" data-cell="Semester">
+      <input class="input input--sm" type="text" data-field="semester" list="semesterTermList" placeholder="e.g. Fall 2026" autocomplete="off">
+    </td>
+    <td class="ctable__c-name" data-cell="Course name">
+      <input class="input input--sm" type="text" data-field="name" placeholder="Course name" autocomplete="off">
+    </td>
+    <td class="ctable__c-code" data-cell="Course">
+      <input class="input input--sm" type="text" data-field="codeSearch" list="courseCatalogList"
+             placeholder="Search e.g. EEN or Circuit" autocomplete="off">
+      <input type="hidden" data-field="code">
+    </td>
+    <td class="ctable__c-cr" data-cell="Credit">
+      <input class="input input--sm" type="number" data-field="credit" min="0" max="30" step="0.5" placeholder="3" inputmode="decimal" autocomplete="off">
+    </td>
+    <td class="ctable__c-gr" data-cell="Grade">
+      <select class="input input--sm" data-field="grade"></select>
+    </td>
+    <td class="ctable__c-act">
+      <button class="iconbtn" type="button" data-action="remove">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M5 7h14M10 7V5.5A1.5 1.5 0 0 1 11.5 4h1A1.5 1.5 0 0 1 14 5.5V7m-6 0 .7 11.1A1.9 1.9 0 0 0 10.6 20h2.8a1.9 1.9 0 0 0 1.9-1.9L16 7"
+                fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+        <span class="visually-hidden">Remove this record</span>
+      </button>
+    </td>
+  </tr>
+</template>
+
+<!-- Global search / command palette (Ctrl+K) -->
+<div class="cmdk-overlay" id="commandPaletteOverlay" hidden></div>
+<div class="cmdk" id="commandPalette" role="dialog" aria-modal="true" aria-label="Search the site" hidden>
+  <div class="cmdk__box">
+    <div class="cmdk__inputrow">
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"></circle><path d="M20 20l-3.4-3.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>
+      <input class="cmdk__input" id="cmdkInput" type="text" placeholder="Search sections, tools or a course…" autocomplete="off" aria-controls="cmdkResults" role="combobox" aria-expanded="true">
+      <kbd class="cmdk__kbd">Esc</kbd>
+    </div>
+    <ul class="cmdk__results" id="cmdkResults" role="listbox"></ul>
+    <p class="cmdk__empty" id="cmdkEmpty" hidden>No matches. Try a section name or a course code.</p>
+  </div>
+</div>
+
 <div class="toasts" id="toasts" aria-live="polite" aria-atomic="false"></div>
 
 <!-- Chart.js, used only for the dashboard's CGPA progress and grade distribution
