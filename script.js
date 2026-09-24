@@ -1547,7 +1547,7 @@
        year and it is remembered. */
     var totalInput = $('#dashTotalCredits');
     var totalParsed = totalInput ? parseNum(totalInput.value) : { valid: false };
-    var totalCredits = (totalParsed.valid && totalParsed.value > 0) ? totalParsed.value : 136;
+    var totalCredits = (totalParsed.valid && totalParsed.value > 0) ? totalParsed.value : 158;
     var pct = totalCredits > 0 ? Math.max(0, Math.min(100, (record.credits / totalCredits) * 100)) : 0;
     var fill = $('#dashProgressFill');
     if (fill) { fill.style.width = pct.toFixed(1) + '%'; }
